@@ -1,0 +1,121 @@
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+/* A theme change repaints every surface at once. Easing the two properties
+   that carry the change turns it from a flash into a dip. Anything that is
+   already animating its own colour is left alone. */
+:root.theme-shifting body,
+:root.theme-shifting .panel,
+:root.theme-shifting .topbar,
+:root.theme-shifting .rail,
+:root.theme-shifting .tile,
+:root.theme-shifting .metrics__cell,
+:root.theme-shifting .alert,
+:root.theme-shifting .cyl {
+  transition: background-color 260ms var(--ease), color 260ms var(--ease),
+              border-color 260ms var(--ease);
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* Both halves of the wash are themed - see --body-bg in tokens.css. */
+  background: var(--body-bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--t-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+}
+
+/* The faint engineering grid that sits under everything. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 46px 46px;
+  z-index: 0;
+}
+
+h1, h2, h3, h4, h5, p, figure { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: none; padding: 0; }
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--accent-soft); }
+
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--ink-5);
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--ink-4); background-clip: padding-box; }
+
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+
+.label {
+  font-size: var(--t-label);
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-weight: 700;
+}
+
+.micro {
+  font-size: var(--t-micro);
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+/* The two dimming utilities stay *readable* dim: they step down the ramp one
+   and two tiers, not out of it. Nothing in the console is decoration. */
+.dim { color: var(--ink-3); }
+.dimmer { color: var(--ink-4); }
+
+@keyframes at-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.32; }
+}
+
+@keyframes at-sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(320%); }
+}
+
+@keyframes at-dash {
+  to { stroke-dashoffset: -1000; }
+}
+
+@keyframes at-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes at-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

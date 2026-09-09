@@ -1,0 +1,37 @@
+# --- core runtime (required) ---------------------------------------------
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.7
+websockets>=12.0
+
+# --- optional: real physics backend --------------------------------------
+# Installing jsbsim switches the physics half from the in-process
+# FGPiston-class model to JSBSim itself. No other code changes.
+# jsbsim>=1.2.1
+
+# --- optional: NGAFID-MC corpus ingest ------------------------------------
+# The corpus is 5.4 GB of 1 Hz Parquet and is mounted, not vendored: set
+# AEROTWIN_NGAFID_DIR. CSV flight files need nothing extra; Parquet needs a
+# reader. The ingest report says which one it found.
+# pandas>=2.2
+# pyarrow>=16.0        # or fastparquet
+
+# --- ML layer -------------------------------------------------------------
+# The Isolation Forest over residual features. The transparent baseline
+# detector runs without these and the learned model abstains cleanly if they
+# are absent, but the shipped configuration expects them.
+numpy>=1.26
+scipy>=1.13
+scikit-learn>=1.5
+
+# --- optional: gradient-boosted upgrade path ------------------------------
+# For a supervised path against labelled maintenance events, once a corpus
+# with per-cylinder labels is available. Not used by the current build.
+# lightgbm>=4.3
+# shap>=0.45
+
+# --- optional: CAN deployment path (Linux / SocketCAN) --------------------
+# python-can>=4.3
+
+# --- optional: time-series storage ----------------------------------------
+# psycopg[binary]>=3.1

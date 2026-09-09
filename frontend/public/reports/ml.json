@@ -1,0 +1,120 @@
+{
+ "learned_model": {
+  "name": "ISOLATION FOREST",
+  "version": "1.0.0",
+  "library": "scikit-learn",
+  "available": true,
+  "trained": true,
+  "state": "TRAINED",
+  "train_samples": 240,
+  "buffered": 240,
+  "required_samples": 240,
+  "n_estimators": 200,
+  "features": [
+   "cht_asymmetry_c",
+   "egt_asymmetry_c",
+   "cht_drift_c",
+   "cht_normalised_z",
+   "cht_persistence",
+   "trim_divergence",
+   "egt_trim_divergence",
+   "cht_egt_agreement",
+   "cht_dispersion_c"
+  ],
+  "feature_count": 9,
+  "input": "RESIDUAL FEATURES (observed - physics expected)",
+  "supervision": "UNSUPERVISED",
+  "refits": 1,
+  "error": null,
+  "note": "Fitted on 240 steady-state healthy residual vectors pooled across four cylinders.",
+  "abstention": "Reports UNTRAINED and contributes zero to the fused score until it has enough healthy evidence."
+ },
+ "baseline_model": {
+  "name": "PHYSICS RESIDUAL GLM",
+  "supervision": "TRANSPARENT / HAND-WEIGHTED",
+  "state": "ACTIVE",
+  "input": "RESIDUAL FEATURES (observed - physics expected)",
+  "note": "Built first on purpose. A learned model that cannot beat an interpretable baseline is a finding, not a failure."
+ },
+ "features": [
+  {
+   "name": "cht_asymmetry_c",
+   "label": "CHT ASYMMETRY vs 4-CYL MEAN",
+   "unit": "\u00b0C",
+   "scale": 6.0,
+   "derived_from": "RESIDUAL (observed - physics expected)"
+  },
+  {
+   "name": "egt_asymmetry_c",
+   "label": "EGT ASYMMETRY vs 4-CYL MEAN",
+   "unit": "\u00b0C",
+   "scale": 15.0,
+   "derived_from": "RESIDUAL (observed - physics expected)"
+  },
+  {
+   "name": "cht_drift_c",
+   "label": "CHT RESIDUAL DRIFT (EWMA)",
+   "unit": "\u00b0C",
+   "scale": 8.0,
+   "derived_from": "RESIDUAL (observed - physics expected)"
+  },
+  {
+   "name": "cht_normalised_z",
+   "label": "CHT RESIDUAL z-SCORE",
+   "unit": "\u03c3",
+   "scale": 3.0,
+   "derived_from": "RESIDUAL (observed - physics expected)"
+  },
+  {
+   "name": "cht_persistence",
+   "label": "PERSISTENCE (CUSUM)",
+   "unit": "\u03c3\u00b7s",
+   "scale": 80.0,
+   "derived_from": "RESIDUAL (observed - physics expected)"
+  },
+  {
+   "name": "trim_divergence",
+   "label": "COOLING TRIM DIVERGENCE",
+   "unit": "frac",
+   "scale": 0.02,
+   "derived_from": "RESIDUAL (observed - physics expected)"
+  },
+  {
+   "name": "egt_trim_divergence",
+   "label": "COMBUSTION TRIM DIVERGENCE",
+   "unit": "frac",
+   "scale": 0.02,
+   "derived_from": "RESIDUAL (observed - physics expected)"
+  },
+  {
+   "name": "cht_egt_agreement",
+   "label": "CHT / EGT AGREEMENT",
+   "unit": "-",
+   "scale": 1.0,
+   "derived_from": "RESIDUAL (observed - physics expected)"
+  },
+  {
+   "name": "cht_dispersion_c",
+   "label": "FOUR-CYLINDER DISPERSION",
+   "unit": "\u00b0C",
+   "scale": 8.0,
+   "derived_from": "RESIDUAL (observed - physics expected)"
+  }
+ ],
+ "fusion": {
+  "weight_baseline": 0.65,
+  "weight_learned": 0.35,
+  "rule": "An untrained or unavailable learned model contributes zero. Disagreement between the two detectors is published, not averaged away."
+ },
+ "fault_classification": {
+  "state": "INSUFFICIENT LABEL SUPPORT",
+  "detail": "NGAFID-MC labels 2,111 unplanned maintenance events across 36 issue types at the FLIGHT level. There is no per-cylinder, per-second fault label anywhere in the corpus, so a supervised per-cylinder classifier would have to invent its own targets. Diagnosis therefore runs on unsupervised residual anomaly detection plus a named physical mechanism, and the mechanism is always reported as LIKELY CONTRIBUTING, never as confirmed.",
+  "what_would_change_it": "A labelled test-rig campaign - induced valve distress, plug fouling, cooling-baffle damage - through the same adapter."
+ },
+ "environment": {
+  "sklearn": true,
+  "required_train_samples": 240
+ },
+ "snapshot": true,
+ "generated_at": "2026-08-27T01:44:26+00:00"
+}

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AEROTWIN · Propulsion Intelligence System</title>
+    <meta name="description" content="Physics-synchronised digital twin for MALE UAV aero piston engines." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!--
+      The only request this document makes off-host. Loaded without blocking
+      render, so an air-gapped or offline host paints immediately on the
+      fallback stack declared in styles/tokens.css rather than waiting on a
+      timeout. To remove the dependency entirely, vendor the two families into
+      frontend/public/ and swap this for a local @font-face.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    </noscript>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

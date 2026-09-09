@@ -1,0 +1,1247 @@
+/* ==========================================================================
+   AEROTWIN - cinematic layer
+
+   The console's own styles live in components.css. This file adds the
+   surfaces that carry the product story: the first-entry sequence, the engine
+   viewer, the animated pipeline, the narrated demonstration and the hero.
+
+   The rule everywhere below: motion has to mean something. A packet moves
+   because data moved, a node pulses because a residual grew, an edge lights
+   because that stage is the one being explained.
+   ========================================================================== */
+/* ==========================================================================
+   0. The mark
+   ========================================================================== */
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.wordmark__mark { color: var(--accent-ink); flex: none; }
+
+.wordmark__text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+
+.wordmark__name {
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  line-height: 1.05;
+  color: var(--ink);
+  text-indent: 0.24em;
+  white-space: nowrap;
+}
+
+.wordmark__sub {
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.wordmark--stacked {
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+
+.wordmark--stacked .wordmark__text { align-items: center; gap: 12px; }
+
+.wordmark--stacked .wordmark__name {
+  font-weight: 200;
+  letter-spacing: 0.32em;
+  text-indent: 0.32em;
+}
+
+.wordmark--stacked .wordmark__sub { letter-spacing: 0.44em; color: var(--ink-3); }
+
+/* ==========================================================================
+   1. First-entry film
+   ========================================================================== */
+
+/*
+ * The film runs in daylight whichever theme the console is in.
+ *
+ * It is a rendered scene, not a surface, so the sky behind this overlay never
+ * darkens - which meant every piece of chrome that read the ink ramp inverted
+ * underneath it and the chapter rail disappeared into the clouds. Rather than
+ * chase each descendant, the daylight palette is bound here and everything
+ * nested resolves against it: the wordmark, the skip pill, the letterbox
+ * bars, the chapter rail and the provenance line.
+ *
+ * Only tokens whose meaning is "against the scene" are rebound. Status hues
+ * are left alone - a critical residual is the same red in both themes.
+ */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: var(--stage-bg);
+  overflow: hidden;
+
+  --ink: var(--film-ink);
+  --ink-2: var(--film-ink-2);
+  --ink-3: var(--film-ink-2);
+  --ink-4: var(--film-ink-2);
+  --accent-ink: var(--film-accent);
+  --glass: var(--film-glass);
+  --glass-soft: var(--film-glass);
+  --hairline-strong: var(--film-rule);
+  --hairline: var(--film-rule);
+  /* The letterbox bands wash the scene out, they do not darken it. */
+  --scrim-1: rgba(255, 255, 255, 0.34);
+  --scrim-2: rgba(255, 255, 255, 0.78);
+  --scrim-3: rgba(255, 255, 255, 0.92);
+  --scrim-edge: rgba(255, 255, 255, 0);
+}
+
+.intro__stage { position: absolute; inset: 0; }
+.intro__stage canvas { display: block; width: 100% !important; height: 100% !important; }
+.intro__fallback-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* Optical vignette. In a bright frame this is a cool shade at the corners,
+   not a black surround - it seats the image without dirtying it. */
+.intro__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(130% 100% at 50% 44%, transparent 46%, rgba(94, 128, 168, 0.18) 100%),
+    linear-gradient(180deg, var(--scrim-1) 0%, transparent 16%, transparent 62%, var(--scrim-1) 100%);
+}
+
+/* A trace of sensor grain. Very low amplitude - this is an instrument, not a
+   film-look filter. */
+.intro__grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.022;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(11, 26, 46, 0.5) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+}
+
+.intro__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: block;
+}
+.intro__overlay button { pointer-events: auto; }
+
+/* letterbox: a soft white bleed rather than a bar, so the frame stays open */
+.intro__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 96px;
+  background: linear-gradient(180deg, var(--scrim-2), var(--scrim-edge));
+  pointer-events: none;
+}
+.intro__bar--bottom { bottom: 0; top: auto; transform: scaleY(-1); }
+.intro__bar--top { top: 0; }
+
+.intro__brand { position: absolute; top: 26px; left: 34px; }
+
+.intro__skip {
+  position: absolute;
+  top: 28px;
+  right: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 100px;
+  background: var(--glass-soft);
+  backdrop-filter: blur(8px);
+  color: var(--film-ink);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  transition: all var(--fast) var(--ease);
+}
+
+.intro__skip:hover {
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  background: var(--panel);
+}
+
+/* ---- chapter rail --------------------------------------------------- */
+
+.intro__chapters {
+  position: absolute;
+  left: 34px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+/* The rail, the timecode and the provenance line are printed straight onto
+   the flying scene, which passes through sky, haze and open country in the
+   course of the sequence. No single ink is readable against all of that, so
+   they carry a white halo: the letterform keeps its own colour and the scene
+   is pushed back a few pixels around it. Costs nothing when the ground behind
+   is already pale. */
+.intro__chapter,
+.intro__prov,
+.intro__timecode,
+.intro__pillar {
+  text-shadow:
+    0 0 3px var(--film-halo),
+    0 0 9px var(--film-halo-soft),
+    0 1px 2px var(--film-halo);
+}
+
+.intro__chapter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--film-ink);
+  font-weight: 700;
+  transition: color var(--fast) var(--ease);
+}
+
+.intro__chapter:hover { color: var(--film-accent); }
+
+.intro__chapter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1.5px solid var(--film-ink-2);
+  flex: none;
+  transition: all var(--mid) var(--ease);
+}
+
+.intro__chapter.is-done .intro__chapter-dot { background: var(--film-ink-2); border-color: var(--film-ink-2); }
+.intro__chapter.is-active { color: var(--film-accent); }
+.intro__chapter.is-active .intro__chapter-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(10, 110, 214, 0.14);
+}
+
+.intro__chapter-label { opacity: 1; }
+
+/* A chapter still ahead is quieter, not invisible - the rail is the map of
+   what is coming, and a map you can only read one line of is not a map. */
+.intro__chapter:not(.is-active):not(.is-done) { color: var(--film-ink-2); }
+
+/* ---- the act label, lower left --------------------------------------- */
+
+.intro__copy {
+  position: absolute;
+  left: 140px;
+  bottom: 96px;
+  max-width: 46ch;
+}
+
+.intro__title {
+  font-size: 52px;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  color: var(--film-ink);
+  text-transform: uppercase;
+}
+
+.intro__marker {
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--film-accent);
+}
+
+/* ---- the centred reveal ---------------------------------------------- */
+
+.intro__reveal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(52% 46% at 50% 52%, var(--scrim-3) 0%, var(--scrim-1) 42%, var(--scrim-edge) 78%);
+  pointer-events: none;
+}
+
+.intro__reveal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  pointer-events: none;
+}
+
+.intro__reveal--final { gap: 26px; }
+.intro__reveal > * { position: relative; }
+.intro__reveal button { pointer-events: auto; }
+
+.intro__pillars {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.intro__pillar {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--film-ink);
+  position: relative;
+}
+
+.intro__pillar + .intro__pillar::before {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.5;
+  transform: translateY(-50%);
+}
+
+.intro__enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 100px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-lift) 52%, var(--accent-2-deep) 100%);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  box-shadow: 0 12px 34px rgba(10, 110, 214, 0.3);
+  transition: transform var(--mid) var(--ease), box-shadow var(--mid) var(--ease);
+}
+
+.intro__enter:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 44px rgba(10, 110, 214, 0.38);
+}
+
+/* ---- footer + progress ----------------------------------------------- */
+
+.intro__foot {
+  position: absolute;
+  left: 34px;
+  right: 34px;
+  bottom: 26px;
+  display: flex;
+  align-items: center;
+}
+
+.intro__foot-spacer { flex: 1; }
+
+.intro__prov,
+.intro__timecode {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--film-ink-2);
+}
+
+/* The one sentence on the film that must never be missed: it is what stops a
+   rendered explanation being taken for measured flight data. Full strength. */
+.intro__prov { color: var(--film-ink); opacity: 1; }
+
+.intro__progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: rgba(11, 26, 46, 0.07);
+}
+
+.intro__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 120ms linear;
+}
+
+/* ---- labels drawn inside the 3D frame -------------------------------- */
+
+.scene-tag {
+  padding: 4px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(10, 110, 214, 0.32);
+  background: var(--glass);
+  box-shadow: var(--shadow-1);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.2em;
+  color: var(--accent-ink);
+  white-space: nowrap;
+  transition: opacity 200ms var(--ease), transform 200ms var(--ease);
+  backdrop-filter: blur(4px);
+}
+
+.scene-tag--fault { color: var(--crit-ink); border-color: rgba(225, 50, 50, 0.4); }
+.scene-tag--plain { color: var(--ink); border-color: var(--hairline-strong); }
+.scene-tag--twin { color: var(--accent-2-ink); border-color: rgba(10, 167, 194, 0.36); }
+.scene-tag--residual { color: var(--residual-ink); border-color: rgba(119, 57, 224, 0.34); }
+
+.scene-tag--ai {
+  color: var(--residual-ink);
+  border-color: rgba(119, 57, 224, 0.34);
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  padding: 6px 14px;
+}
+/* ==========================================================================
+   2. Returning-operator startup card
+   ========================================================================== */
+
+.boot__entry {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 26px;
+  position: relative;
+}
+.boot__enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 26px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(180deg, var(--accent-lift), var(--accent));
+  border-radius: var(--r);
+  box-shadow: 0 0 0 1px rgba(10, 110, 214, 0.45), 0 10px 34px rgba(10, 110, 214, 0.2);
+  transition: transform var(--fast) var(--ease);
+}
+.boot__enter:hover { transform: translateY(-1px); }
+.boot__replay {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.2em;
+  color: var(--ink-3);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r);
+  transition: color var(--fast), border-color var(--fast);
+}
+.boot__replay:hover { color: var(--accent-ink); border-color: var(--accent); }
+
+/* The auto-entry countdown, cancelled the moment the card is touched. */
+.boot__countdown {
+  position: absolute;
+  left: 0;
+  bottom: -12px;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  transform-origin: left;
+  animation: at-countdown 3.6s linear forwards;
+}
+.boot__countdown.is-held { animation-play-state: paused; opacity: 0.25; }
+
+@keyframes at-countdown {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+/* ==========================================================================
+   3. Engine viewer
+   ========================================================================== */
+
+.engine3d {
+  position: relative;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background:
+    radial-gradient(90% 80% at 50% 12%, rgba(10, 110, 214, 0.07), transparent 62%),
+    linear-gradient(180deg, var(--panel) 0%, var(--panel-3) 100%);
+}
+.engine3d canvas { display: block; }
+
+.engine3d__modes {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-width: calc(100% - 24px);
+}
+.engine3d__mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+  color: var(--ink-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--glass-soft);
+  backdrop-filter: blur(5px);
+  transition: all var(--fast);
+}
+.engine3d__mode:hover { color: var(--ink-2); border-color: var(--hairline-strong); }
+.engine3d__mode.is-active {
+  color: var(--accent-ink);
+  border-color: rgba(10, 110, 214, 0.45);
+  background: rgba(10, 110, 214, 0.1);
+}
+
+.engine3d__readout {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  pointer-events: none;
+}
+.engine3d__ident { display: flex; flex-direction: column; gap: 2px; }
+.engine3d__ident-k {
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+}
+.engine3d__ident-v {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--ink-3);
+}
+.engine3d__ident-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--accent-ink);
+  margin-top: 3px;
+}
+.engine3d__metrics {
+  margin-left: auto;
+  display: flex;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  color: var(--ink-3);
+}
+.engine3d__metrics b { color: var(--ink); font-weight: 700; font-size: 15px; }
+.engine3d__metrics .is-alert b { color: var(--crit-ink); }
+
+.engine3d__hint {
+  position: absolute;
+  top: 44px;
+  right: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  font-weight: 600;
+  color: var(--ink-3);
+  text-align: right;
+  max-width: calc(100% - 24px);
+  pointer-events: none;
+}
+
+/* the label pinned to a flagged cylinder */
+.engine3d__tag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 4px 8px;
+  border: 1px solid rgba(225, 50, 50, 0.5);
+  border-radius: var(--r-sm);
+  background: var(--glass-solid);
+  white-space: nowrap;
+}
+.engine3d__tag-k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; color: var(--crit-ink); }
+.engine3d__tag-v { font-family: var(--mono); font-size: 12.5px; color: var(--ink); }
+
+/* no-WebGL schematic */
+.engine3d--flat { display: flex; flex-direction: column; justify-content: center; }
+.engine3d__flat { display: flex; gap: 22px; justify-content: center; align-items: flex-end; padding: 22px; }
+.engine3d__flat-cyl { display: flex; flex-direction: column; align-items: center; gap: 7px; }
+.engine3d__flat-bar {
+  width: 34px;
+  height: 110px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--panel-2);
+}
+.engine3d__flat-bar > div { width: 100%; background: linear-gradient(180deg, var(--warn), var(--accent)); }
+.engine3d__flat-cyl.is-flagged .engine3d__flat-bar { border-color: rgba(225, 50, 50, 0.6); }
+.engine3d__flat-cyl.is-flagged .engine3d__flat-bar > div { background: linear-gradient(180deg, var(--crit), var(--warn)); }
+.engine3d__nowebgl {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--caution-ink);
+}
+
+/* ==========================================================================
+   4. Animated pipeline
+   ========================================================================== */
+
+.pipe {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  overflow-x: auto;
+  padding-bottom: 26px;
+}
+.pipe::-webkit-scrollbar { height: 5px; }
+
+/* Grow into a wide panel, scroll in a narrow one - but never shrink below
+   the width the labels need. A squashed pipeline reads as a broken layout. */
+.pipe__cell { display: flex; align-items: center; flex: 1 0 auto; min-width: 0; }
+
+.pipe__node {
+  position: relative;
+  flex: 1 0 auto;
+  min-width: 118px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 11px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r);
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  transition: border-color var(--mid), box-shadow var(--mid), transform var(--mid) var(--ease);
+}
+.pipe__node::before {
+  /* top edge highlight - the engineered-panel cue used throughout */
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--inset-hi), transparent);
+}
+.pipe__index { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; color: var(--ink-4); }
+.pipe__label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  color: var(--ink);
+}
+.pipe__sub { font-size: 11px; color: var(--ink-3); letter-spacing: 0.06em; font-weight: 600; }
+.pipe__value {
+  font-weight: 700;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+}
+
+.pipe__node--key { border-color: rgba(119, 57, 224, 0.34); }
+.pipe__node--key .pipe__label { color: var(--residual-ink); }
+
+.pipe__node.is-lit {
+  border-color: rgba(10, 110, 214, 0.6);
+  box-shadow: 0 0 0 1px rgba(10, 110, 214, 0.2), 0 0 26px rgba(10, 110, 214, 0.14);
+  transform: translateY(-2px);
+}
+.pipe__node.is-lit .pipe__label {
+  font-weight: 700;
+  color: var(--ink); color: var(--accent-ink); }
+
+.pipe__node.is-alarmed {
+  border-color: rgba(225, 50, 50, 0.45);
+  animation: at-alarm 2.4s var(--ease-in-out) infinite;
+}
+@keyframes at-alarm {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(225, 50, 50, 0.14); }
+  50% { box-shadow: 0 0 0 1px rgba(225, 50, 50, 0.34), 0 0 22px rgba(225, 50, 50, 0.16); }
+}
+
+/* the link between two stages, with packets moving along it */
+.pipe__link {
+  position: relative;
+  flex: 0 0 34px;
+  height: 1px;
+  margin: 0 2px;
+  background: linear-gradient(90deg, var(--hairline), var(--hairline-strong), var(--hairline));
+}
+.pipe__packet {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(10, 110, 214, 0.7);
+  animation: at-packet 1.65s linear infinite;
+}
+.pipe__link.is-hot { background: linear-gradient(90deg, var(--hairline), rgba(119, 57, 224, 0.5), var(--hairline)); }
+.pipe__link.is-hot .pipe__packet { background: var(--residual); box-shadow: 0 0 8px rgba(119, 57, 224, 0.75); }
+
+@keyframes at-packet {
+  from { transform: translateX(0); opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  to { transform: translateX(34px); opacity: 0; }
+}
+
+/* the link stops when the twin is holding rather than tracking */
+.pipe--held .pipe__packet { animation-play-state: paused; opacity: 0.2; }
+.pipe__hold {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--crit-ink);
+}
+
+.pipe__feedback {
+  position: absolute;
+  left: 12%;
+  right: 26%;
+  bottom: 8px;
+  height: 12px;
+  border-left: 1px solid rgba(119, 57, 224, 0.28);
+  border-right: 1px solid rgba(119, 57, 224, 0.28);
+  border-bottom: 1px solid rgba(119, 57, 224, 0.28);
+  border-radius: 0 0 var(--r) var(--r);
+  pointer-events: none;
+}
+.pipe__feedback-label {
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  transform: translateX(-50%);
+  padding: 0 8px;
+  background: var(--panel);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  /* This names the one loop that makes the twin a twin - it should not be the
+     faintest string on the page. Held at 75% opacity it read 3.75:1. */
+  color: var(--residual-ink);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pipe--full .pipe__node { padding: 13px 14px; }
+.pipe__foot {
+  position: absolute;
+  left: 0;
+  bottom: -18px;
+  display: flex;
+  gap: 20px;
+}
+
+
+/* ---- stacked orientation --------------------------------------------------
+   Same pipeline, running downward, for a half-width panel. The packets travel
+   down the link instead of along it, and the feedback arm is drawn as a
+   bracket up the left edge. */
+
+.pipe--stacked {
+  flex-direction: column;
+  overflow-x: hidden;
+  padding: 0 0 4px 22px;
+}
+.pipe--stacked .pipe__cell { flex: 0 0 auto; flex-direction: column; align-items: stretch; width: 100%; }
+.pipe--stacked .pipe__node {
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  min-width: 0;
+}
+.pipe--stacked .pipe__index { flex: 0 0 auto; }
+.pipe--stacked .pipe__label {
+  font-weight: 700;
+  color: var(--ink); flex: 0 0 auto; }
+.pipe--stacked .pipe__sub { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pipe--stacked .pipe__value {
+  font-weight: 700; flex: 0 0 auto; margin-top: 0; margin-left: auto; }
+
+.pipe--stacked .pipe__link {
+  flex: 0 0 auto;
+  width: 1px;
+  height: 16px;
+  margin: 0 0 0 30px;
+  background: linear-gradient(180deg, var(--hairline), var(--hairline-strong), var(--hairline));
+}
+.pipe--stacked .pipe__packet {
+  top: 0;
+  left: -2px;
+  animation-name: at-packet-v;
+}
+
+@keyframes at-packet-v {
+  from { transform: translateY(0); opacity: 0; }
+  14% { opacity: 1; }
+  86% { opacity: 1; }
+  to { transform: translateY(16px); opacity: 0; }
+}
+
+.pipe--stacked .pipe__feedback {
+  left: 2px;
+  right: auto;
+  top: 14%;
+  bottom: 26%;
+  height: auto;
+  width: 12px;
+  border: 1px solid rgba(119, 57, 224, 0.28);
+  border-right: none;
+  border-radius: var(--r) 0 0 var(--r);
+}
+.pipe--stacked .pipe__feedback-label {
+  left: -2px;
+  bottom: 50%;
+  transform: translateY(50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  padding: 8px 0;
+  background: var(--panel);
+}
+.pipe--stacked .pipe__foot { position: static; margin-top: 12px; flex-wrap: wrap; }
+.pipe--stacked .pipe__hold { position: static; margin-top: 8px; }
+
+/* ==========================================================================
+   6. Command Center hero
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.25fr);
+  gap: var(--gap-5);
+  align-items: stretch;
+  margin-bottom: 16px;
+  padding: 24px 26px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  min-height: 372px;
+  background: var(--panel);
+}
+
+/* ---- the operational backdrop ------------------------------------------
+   Three layers: the drawn scene, an optional photograph over it, and a scrim
+   that gives the copy a ground of its own. The scrim is what makes the text
+   contrast independent of whatever picture is behind it - which is the only
+   way a headline over an image can be held to AA in both themes. */
+.hero__scene {
+  /* The copy side only. The right of the hero is the live 3D aircraft over
+     its own terrain, and two environments meeting down the middle of one
+     panel reads as a mistake - so the drawn scene stops before it gets
+     there and is feathered out rather than cut. */
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+}
+
+.hero__scene-art { width: 100%; height: 100%; display: block; }
+
+/* Set --hero-photo to url('/hero/operational.jpg') to use a photograph
+   instead. It sits over the drawing and under the scrim, so nothing else has
+   to change. */
+.hero__scene::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--hero-photo);
+  background-size: cover;
+  background-position: center 62%;
+}
+
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--hero-scrim);
+}
+
+/* Stacked, the copy sits over the middle of the scene rather than beside it,
+   so the wash has to come from the top instead of the side. */
+@media (max-width: 1100px) {
+  .hero__scrim { background: var(--hero-scrim-stacked); }
+}
+
+.hero__left { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 14px; z-index: 2; }
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  color: var(--accent-ink);
+}
+.hero__title {
+  font-size: 34px;
+  font-weight: 200;
+  letter-spacing: 0.06em;
+  line-height: 1.12;
+  color: var(--ink);
+}
+.hero__title b { font-weight: 600; }
+.hero__line {
+  font-size: 14px;
+  color: var(--ink-3);
+  max-width: 44ch;
+  line-height: 1.5;
+}
+.hero__cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.hero__primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 20px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(180deg, var(--accent-lift), var(--accent));
+  border-radius: var(--r);
+  box-shadow: 0 8px 26px rgba(10, 110, 214, 0.2);
+  transition: transform var(--fast) var(--ease);
+}
+.hero__primary:hover { transform: translateY(-1px); }
+.hero__secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 18px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--ink-2);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r);
+  transition: all var(--fast);
+}
+.hero__secondary:hover { color: var(--accent-ink); border-color: var(--accent); }
+
+.hero__right { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 10px; }
+
+/* The slot the persistent 3D stage docks into. */
+.hero__slot {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 306px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--panel-3);
+}
+
+.hero__strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 9px 12px;
+  background: var(--panel);
+}
+.hero__stat-k { font-size: 10.5px; letter-spacing: 0.2em; color: var(--ink-3); text-transform: uppercase; }
+.hero__stat-v {
+  font-family: var(--mono);
+  font-size: 17px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.hero__stat-v small { font-size: 11px; color: var(--ink-3); }
+
+@media (max-width: 1200px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .hero__slot { min-height: 220px; }
+}
+
+/* ==========================================================================
+   7. Docked stage, route motion, ambience
+   ========================================================================== */
+
+/* The corner card, docked into the hero: same element, no fixed position. */
+/* Docked in the hero the card keeps its fixed positioning and is driven onto
+   the slot's rectangle each frame - the same rectangle the 3D stage tracks.
+   Living in the page flow instead would put it underneath the canvas, because
+   the shell is its own stacking context. */
+.uav-card--docked {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  cursor: pointer;
+}
+.uav-card--docked:hover { transform: none; }
+
+.uav-stage--parked { opacity: 0; pointer-events: none; }
+
+/* One instrument sweep on a route change. */
+.route-sweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform-origin: left;
+  background: linear-gradient(90deg, transparent, rgba(10, 110, 214, 0.55), transparent);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Route-dependent ambient wash. Subtle enough that telemetry stays readable -
+   the environment is behind the data, never over it. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  transition: background 900ms var(--ease);
+  background:
+    radial-gradient(1100px 620px at 82% -8%, rgba(10, 110, 214, 0.05), transparent 60%);
+}
+body[data-route='/mission']::after,
+body[data-route='/simulation']::after {
+  background:
+    radial-gradient(1200px 700px at 70% -10%, rgba(22, 104, 227, 0.07), transparent 62%),
+    radial-gradient(900px 520px at 10% 108%, rgba(10, 160, 110, 0.045), transparent 58%);
+}
+body[data-route='/twin']::after,
+body[data-route='/engine']::after {
+  background:
+    radial-gradient(1000px 600px at 78% -6%, rgba(119, 57, 224, 0.06), transparent 60%),
+    radial-gradient(800px 500px at 4% 104%, rgba(239, 122, 26, 0.035), transparent 58%);
+}
+body[data-route='/anomalies']::after,
+body[data-route='/maintenance']::after {
+  background:
+    radial-gradient(1000px 600px at 80% -8%, rgba(239, 122, 26, 0.05), transparent 60%);
+}
+
+/* ==========================================================================
+   8. Panel refinement - engineered rather than decorated
+   ========================================================================== */
+
+.panel {
+  position: relative;
+  background:
+    linear-gradient(180deg, var(--glass), transparent 42%),
+    var(--panel);
+}
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(11, 26, 46, 0.05), transparent);
+  pointer-events: none;
+}
+
+/* Corner ticks, the way an instrument bezel is marked. */
+.panel--marked::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 9px;
+  height: 9px;
+  border-top: 1px solid var(--hairline-strong);
+  border-right: 1px solid var(--hairline-strong);
+  pointer-events: none;
+}
+
+.panel--glow {
+  box-shadow:
+    var(--shadow-2),
+    inset 0 1px 0 var(--glass),
+    0 0 0 1px rgba(10, 110, 214, 0.06);
+}
+
+/* ==========================================================================
+   9. Responsive
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .intro__copy { left: 120px; bottom: 88px; }
+  .intro__title { font-size: 42px; }
+  .intro__pillars { gap: 32px; }
+  .hero__title { font-size: 28px; }
+}
+
+@media (max-width: 1100px) {
+  .intro__chapters { display: none; }
+  .intro__copy { left: 32px; right: 32px; bottom: 80px; }
+  .intro__title { font-size: 34px; }
+  .intro__pillars { gap: 24px; }
+  .intro__pillar { font-size: 11px; letter-spacing: 0.24em; }
+  .intro__pillar + .intro__pillar::before { left: -14px; }
+}
+
+@media (max-height: 780px) {
+  .intro__copy { bottom: 72px; }
+  .intro__title { font-size: 38px; }
+  .intro__bar { height: 72px; }
+}
+
+/* Reduced motion: the packets and sweeps stop, the information stays. */
+@media (prefers-reduced-motion: reduce) {
+  .pipe__packet,
+  .boot__countdown,
+  .pipe__node.is-alarmed { animation: none !important; }
+  .pipe__packet { opacity: 0.55; }
+}
+
+/* ==========================================================================
+   10. Top bar at laptop widths
+
+   The identity block and the brand lockup collide below about 1500px once the
+   status badges and the replay control are in the row. Drop the least useful
+   items first: the strapline, then the mission id, then the phase - all of
+   which are repeated on the screens themselves.
+   ========================================================================== */
+
+@media (max-width: 1560px) {
+  .topbar .wordmark__sub { display: none; }
+  .topbar__ident { gap: var(--gap-3); padding-left: var(--gap-3); }
+  /* The pipeline nodes give up their padding before the panel gives up a
+     stage: eight stages that all fit beats seven stages and a scrollbar. */
+  .pipe--full .pipe__node { padding: 11px 11px; }
+  .pipe__link { min-width: 16px; }
+}
+
+@media (max-width: 1440px) {
+  .pipe__sub { display: none; }
+  /* Below this the eight stages stop asking for a fixed width and share what
+     there is. All eight visible beats seven and a scrollbar - the point of the
+     panel is that the chain is complete. */
+  .pipe--full .pipe__cell { flex: 1 1 0; min-width: 0; }
+  .pipe--full .pipe__node { min-width: 0; flex: 1 1 0; padding: 10px 9px; }
+  .pipe--full .pipe__value {
+  font-weight: 700; font-size: 11.5px; letter-spacing: 0.02em; }
+  .pipe--full .pipe__label {
+  font-weight: 700;
+  color: var(--ink); font-size: 11px; }
+  .pipe__link { min-width: 12px; }
+}
+
+@media (max-width: 1400px) {
+  .topbar__ident .ident:nth-child(2) { display: none; }
+}
+
+@media (max-width: 1280px) {
+  .topbar__ident .ident:nth-child(4) { display: none; }
+  .topbar__status .badge:nth-child(2) { display: none; }
+}
+
+/* ==========================================================================
+   Capability strip
+
+   The four verbs under the hero. Each one is a link to the screen that
+   substantiates it, so the claim and its evidence are one click apart.
+   ========================================================================== */
+
+.caps {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.caps__item {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  align-items: center;
+  padding: 9px 11px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r);
+  background: var(--panel);
+  color: var(--ink-3);
+  transition: all var(--fast) var(--ease);
+}
+
+.caps__item:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  color: var(--accent-ink);
+  transform: translateY(-1px);
+}
+
+.caps__item svg { grid-row: 1 / span 2; color: var(--accent-ink); }
+
+.caps__verb {
+  font-size: var(--t-small);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.caps__what {
+  font-size: var(--t-micro);
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+  .caps { grid-template-columns: minmax(0, 1fr); }
+}

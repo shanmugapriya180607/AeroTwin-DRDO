@@ -1,0 +1,331 @@
+/* ==========================================================================
+   How AeroTwin works - the second step of first entry.
+
+   Full-bleed and themed, like the film and the showcase either side of it.
+   Everything is a token, so the page arrives in whichever theme the operator
+   already chose rather than flashing white on the way through.
+   ========================================================================== */
+
+.how {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--body-bg);
+  color: var(--ink);
+}
+
+/* A quiet wash so the drawing has somewhere to sit. */
+.how__sky {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(70% 46% at 50% 4%, var(--accent-dim), transparent 62%),
+    radial-gradient(46% 40% at 88% 96%, var(--residual-dim), transparent 60%);
+}
+
+.how__top {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-4);
+  padding: 20px 30px 0;
+  flex: none;
+}
+
+.how__skip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 100px;
+  background: var(--glass-soft);
+  backdrop-filter: blur(8px);
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: var(--t-small);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: all var(--fast) var(--ease);
+}
+
+.how__skip:hover { color: var(--accent-ink); border-color: var(--accent); }
+
+.how__inner {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.15fr);
+  grid-template-areas: 'lede chain' 'scene chain';
+  align-content: center;
+  gap: var(--gap-5) var(--gap-6);
+  padding: var(--gap-5) 30px var(--gap-4);
+  max-width: 1380px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.how__lede { grid-area: lede; align-self: end; }
+
+.how__eyebrow {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: var(--t-small);
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin-bottom: 14px;
+}
+
+.how__title {
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.how__title b { font-weight: 700; }
+
+.how__sub {
+  margin-top: 16px;
+  max-width: 46ch;
+  font-size: var(--t-body);
+  line-height: 1.62;
+  color: var(--ink-2);
+}
+
+/* ---- the drawing -------------------------------------------------------- */
+
+.how__scene { grid-area: scene; align-self: start; }
+.how__art { width: 100%; max-width: 520px; height: auto; overflow: visible; }
+
+.how__horizon {
+  fill: none;
+  stroke: var(--hairline-strong);
+  stroke-width: 1.1;
+}
+
+.how__horizon--far { stroke: var(--hairline); }
+
+.how__uav path,
+.how__uav ellipse { fill: var(--ink); }
+.how__uav path[fill='none'] { stroke: var(--ink); stroke-width: 2; }
+
+.how__beam {
+  stroke: var(--hairline-strong);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+  fill: none;
+}
+
+.how__packet { fill: var(--accent); }
+
+.how__beam-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  fill: var(--ink-3);
+  font-weight: 700;
+}
+
+/* ---- the chain ---------------------------------------------------------- */
+
+.how__chain {
+  grid-area: chain;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.how__stage { position: relative; }
+
+.how__stage-btn {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: var(--gap-3);
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  border: 1px solid transparent;
+  border-radius: var(--r-lg);
+  transition: all var(--mid) var(--ease);
+}
+
+.how__n {
+  font-family: var(--mono);
+  font-size: var(--t-body);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink-5);
+  padding-top: 1px;
+  transition: color var(--mid) var(--ease);
+}
+
+.how__stage-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+
+.how__stage-title {
+  font-size: var(--t-lead);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--ink-4);
+  transition: color var(--mid) var(--ease);
+}
+
+.how__stage-line {
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--ink-4);
+  transition: color var(--mid) var(--ease);
+}
+
+.how__term {
+  align-self: flex-start;
+  margin-top: 5px;
+  padding: 2px 8px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--hairline);
+  font-family: var(--mono);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--ink-4);
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: all var(--mid) var(--ease);
+}
+
+/* The link between stages fills as the walk-through passes it. */
+.how__link {
+  position: absolute;
+  left: 36px;
+  bottom: -2px;
+  width: 2px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--hairline);
+  transition: background var(--mid) var(--ease);
+}
+
+/* ---- states ------------------------------------------------------------- */
+
+.how__stage.is-done .how__n { color: var(--ink-3); }
+.how__stage.is-done .how__stage-title { color: var(--ink-2); }
+.how__stage.is-done .how__stage-line { color: var(--ink-3); }
+.how__stage.is-done .how__link { background: var(--accent); }
+.how__stage.is-done .how__term { opacity: 1; transform: none; color: var(--ink-3); }
+
+.how__stage.is-active .how__stage-btn {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  box-shadow: var(--shadow-2);
+}
+
+.how__stage.is-active .how__n { color: var(--accent-ink); }
+.how__stage.is-active .how__stage-title { color: var(--ink); }
+.how__stage.is-active .how__stage-line { color: var(--ink-2); }
+
+.how__stage.is-active .how__term {
+  opacity: 1;
+  transform: none;
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  background: var(--panel);
+}
+
+/* ---- footer ------------------------------------------------------------- */
+
+.how__foot {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-3);
+  flex-wrap: wrap;
+  padding: var(--gap-4) 30px 26px;
+  border-top: 1px solid var(--hairline);
+  flex: none;
+}
+
+.how__prov {
+  font-family: var(--mono);
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--simulated-ink);
+}
+
+.how__secondary {
+  padding: 11px 18px;
+  border-radius: 100px;
+  border: 1px solid var(--hairline-strong);
+  background: transparent;
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: var(--t-small);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: all var(--fast) var(--ease);
+}
+
+.how__secondary:hover { color: var(--accent-ink); border-color: var(--accent); }
+
+.how__primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 26px;
+  border: none;
+  border-radius: 100px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-lift) 52%, var(--accent-2-deep) 100%);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: var(--t-small);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 28px rgba(10, 110, 214, 0.28);
+  transition: transform var(--mid) var(--ease), box-shadow var(--mid) var(--ease);
+}
+
+.how__primary:hover { transform: translateY(-2px); box-shadow: 0 16px 38px rgba(10, 110, 214, 0.34); }
+
+/* Once the walk-through has finished, the way on is the brightest thing left. */
+.how__primary.is-ready { animation: how-ready 2.6s var(--ease-in-out) infinite; }
+
+@keyframes how-ready {
+  0%, 100% { box-shadow: 0 10px 28px rgba(10, 110, 214, 0.28); }
+  50% { box-shadow: 0 10px 28px rgba(10, 110, 214, 0.28), 0 0 0 6px var(--accent-dim); }
+}
+
+/* ---- responsive --------------------------------------------------------- */
+
+@media (max-width: 1080px) {
+  .how__inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'lede' 'scene' 'chain';
+    align-content: start;
+  }
+  .how__title { font-size: 32px; }
+  .how__scene { justify-self: center; }
+}
+
+@media (max-width: 640px) {
+  .how__top, .how__inner, .how__foot { padding-left: 18px; padding-right: 18px; }
+  .how__title { font-size: 26px; }
+  .how__stage-btn { grid-template-columns: 34px minmax(0, 1fr); padding: 10px; }
+  .how__link { left: 26px; }
+}

@@ -1,0 +1,71 @@
+# dependencies
+node_modules/
+
+# There is no package at the repository root - the frontend owns its own
+# manifest. Running npx here regenerates an empty lockfile; it is an artefact,
+# not a dependency record.
+/package-lock.json
+/package.json
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# builds
+frontend/dist/
+build/
+*.tsbuildinfo
+
+# environment - never commit real values
+.env
+.env.*
+!.env.example
+
+# The reference corpus is mounted, never vendored - but the small synthetic
+# demo corpus ships, or a fresh clone opens on a configuration error.
+#
+# Note the `data/*` rather than `data/`: git does not descend into an excluded
+# directory, so a trailing-slash exclusion here would make every negation below
+# it dead and silently drop the demo corpus from the repository.
+data/*
+!data/demo/
+data/demo/*
+!data/demo/flights/
+data/demo/flights/*
+!data/demo/flights/*.csv
+!data/demo/flights/*.md
+
+# The team engine-telemetry corpus is small (390 KB) and ships, so the Dataset
+# screen and the adapter path both work out of a fresh clone.
+!data/team_corpus/
+data/team_corpus/*
+!data/team_corpus/*.csv
+!data/team_corpus/*.md
+
+*.parquet
+
+# editors and tooling
+.vscode/
+.idea/
+*.swp
+.qodo/
+
+# os
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# logs and temporary files
+*.log
+npm-debug.log*
+tmp/
+.cache/
+.vercel
+.env*

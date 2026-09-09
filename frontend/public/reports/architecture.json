@@ -1,0 +1,176 @@
+{
+ "lanes": [
+  {
+   "id": "sources",
+   "title": "DATA SOURCES",
+   "nodes": [
+    {
+     "id": "ngafid",
+     "label": "NGAFID-MC",
+     "sub": "DEMO CORPUS",
+     "state": "DEMO"
+    },
+    {
+     "id": "jsbsim",
+     "label": "JSBSim FGPiston",
+     "sub": "PHYSICS MODEL",
+     "state": "ACTIVE"
+    },
+    {
+     "id": "can",
+     "label": "LIVE CAN",
+     "sub": "DEPLOYMENT INTERFACE",
+     "state": "INTERFACE READY"
+    }
+   ]
+  },
+  {
+   "id": "core",
+   "title": "TWIN CORE",
+   "nodes": [
+    {
+     "id": "ingest",
+     "label": "Data Ingestion",
+     "sub": "1 Hz contract",
+     "state": "ACTIVE"
+    },
+    {
+     "id": "replay",
+     "label": "Flight Replay",
+     "sub": "lockstep clock",
+     "state": "ACTIVE"
+    },
+    {
+     "id": "physics",
+     "label": "Physics Model",
+     "sub": "FGPiston class",
+     "state": "RUNNING"
+    },
+    {
+     "id": "residual",
+     "label": "Residual Engine",
+     "sub": "per channel, per cylinder",
+     "state": "ACTIVE"
+    },
+    {
+     "id": "estimator",
+     "label": "State Estimation",
+     "sub": "feedback to model",
+     "state": "CALIBRATED"
+    }
+   ]
+  },
+  {
+   "id": "analytics",
+   "title": "ANALYTICS",
+   "nodes": [
+    {
+     "id": "anomaly",
+     "label": "Anomaly Detection",
+     "sub": "on residuals",
+     "state": "ACTIVE"
+    },
+    {
+     "id": "health",
+     "label": "Health Index",
+     "sub": "per cylinder first",
+     "state": "ACTIVE"
+    },
+    {
+     "id": "rul",
+     "label": "RUL",
+     "sub": "P(RUL > 2 days)",
+     "state": "ACTIVE"
+    },
+    {
+     "id": "calibration",
+     "label": "Calibration",
+     "sub": "confidence + abstention",
+     "state": "ACTIVE"
+    },
+    {
+     "id": "explain",
+     "label": "Explainability",
+     "sub": "feature attribution",
+     "state": "ACTIVE"
+    }
+   ]
+  },
+  {
+   "id": "output",
+   "title": "OUTPUT",
+   "nodes": [
+    {
+     "id": "gcs",
+     "label": "Ground Station",
+     "sub": "this interface",
+     "state": "ACTIVE"
+    },
+    {
+     "id": "advisory",
+     "label": "Maintenance Advisory",
+     "sub": "with evidence trail",
+     "state": "ACTIVE"
+    },
+    {
+     "id": "simulation",
+     "label": "Mission Simulation",
+     "sub": "four conditions",
+     "state": "ACTIVE"
+    },
+    {
+     "id": "deploy",
+     "label": "Deployment",
+     "sub": "on-premise, air-gapped",
+     "state": "DOCUMENTED"
+    }
+   ]
+  }
+ ],
+ "feedback": {
+  "from": "estimator",
+  "to": "physics",
+  "label": "STATE FEEDBACK",
+  "detail": "Volumetric efficiency, cooling effectiveness and per-cylinder trim are estimated online and fed back to re-tune the model. Without this arm the system would be a simulation running next to a sensor feed, not a twin."
+ },
+ "deployment_chain": [
+  {
+   "id": "uav",
+   "label": "UAV",
+   "sub": "ECU / FADEC"
+  },
+  {
+   "id": "edge",
+   "label": "EDGE",
+   "sub": "residual + threshold safety"
+  },
+  {
+   "id": "link",
+   "label": "SECURE TELEMETRY PATH",
+   "sub": "CAN \u2192 datalink"
+  },
+  {
+   "id": "gcs",
+   "label": "GROUND CONTROL STATION",
+   "sub": "operator interface"
+  },
+  {
+   "id": "twin",
+   "label": "LOCAL DIGITAL TWIN",
+   "sub": "physics + analytics"
+  },
+  {
+   "id": "db",
+   "label": "LOCAL DATABASE",
+   "sub": "on-premise time series"
+  }
+ ],
+ "deployment_tags": [
+  "ON-PREMISE",
+  "AIR-GAPPED READY",
+  "NO CLOUD",
+  "NO EXTERNAL AI"
+ ],
+ "snapshot": true,
+ "generated_at": "2026-08-27T01:44:26+00:00"
+}

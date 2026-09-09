@@ -1,0 +1,400 @@
+/*
+  AEROTWIN design tokens - premium white aerospace.
+
+  The console is read in a lit engineering space, on a projector, and over a
+  shoulder. The ground is therefore paper-white with a cool blue cast, and
+  colour is spent where it carries meaning: status, provenance, and the
+  expected/actual pair. The 3D stages supply the depth; the surfaces stay flat,
+  precise and quiet.
+*/
+
+:root {
+  /* -- ground ----------------------------------------------------------- */
+  color-scheme: light;
+
+  /* The wash behind everything, and the engineering grid over it. Named here
+     rather than written into base.css so the dark theme can restate them. */
+  --body-bg:
+    radial-gradient(1300px 780px at 76% -14%, rgba(10, 167, 194, 0.10), transparent 62%),
+    radial-gradient(1000px 660px at 6% 108%, rgba(10, 110, 214, 0.07), transparent 60%),
+    linear-gradient(178deg, #fbfdff 0%, #f4f7fc 46%, #eaf1fa 100%);
+  --grid-line: rgba(11, 26, 46, 0.022);
+  /* Halo behind text printed straight onto the 3D scene. */
+  --halo: rgba(255, 255, 255, 0.95);
+  --halo-soft: rgba(255, 255, 255, 0.85);
+
+  --void: #eef3fa;
+  --bg: #f4f7fc;
+  --bg-raised: #ffffff;
+  --panel: #ffffff;
+  --panel-2: #f6f9fd;
+  --panel-3: #eef3fa;
+  --hairline: #e3eaf4;
+  --hairline-strong: #cddaea;
+
+  /* Scrims for glass over 3D. Light, never black. */
+  --scrim-1: rgba(255, 255, 255, 0.62);
+  --scrim-2: rgba(255, 255, 255, 0.82);
+  --scrim-3: rgba(255, 255, 255, 0.94);
+  --scrim-edge: rgba(255, 255, 255, 0);
+
+  /* -- surfaces ---------------------------------------------------------
+     The handful of gradients and glass fills that appear on more than one
+     component. They were written as literal whites in five stylesheets, which
+     is exactly the set that stayed white when the dark theme arrived. */
+  --surface-grad: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(248, 251, 255, 0.94));
+  --topbar-grad: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.92));
+  --rail-bg: rgba(255, 255, 255, 0.74);
+  --glass: rgba(255, 255, 255, 0.92);
+  --glass-soft: rgba(255, 255, 255, 0.78);
+  --glass-solid: rgba(255, 255, 255, 0.96);
+  --inset-hi: rgba(255, 255, 255, 0.9);
+  /* The head/foot washes on the corner card, drawn over the live 3D stage. */
+  --fade-down: linear-gradient(180deg, var(--scrim-3) 30%, var(--scrim-edge));
+  --fade-up: linear-gradient(0deg, var(--scrim-3) 34%, var(--scrim-edge));
+  --hero-grad: linear-gradient(120deg, #ffffff 0%, #f2f7fd 52%, #e8f0fa 100%);
+  --stage-bg: #eef4fb;
+
+  /* -- the operational backdrop ------------------------------------------
+     One drawing, lit twice. Daylight here; dusk in the dark theme. Swap in a
+     photograph by setting --hero-photo to a url() - the scrim over the copy
+     is sized to keep it readable either way. */
+  --hero-photo: none;
+  --hero-sky-hi: #b9d4ee;
+  --hero-sky-mid: #dbe8f5;
+  --hero-sky-lo: #f4e9d8;
+  --hero-sun: rgba(255, 214, 150, 0.85);
+  --hero-cloud: #ffffff;
+  --hero-haze: #e8eef6;
+  --hero-ridge-3: #a9bcd2;
+  --hero-ridge-2: #8ea6c0;
+  --hero-ridge-1: #6f89a8;
+  --hero-base: #4c6076;
+  --hero-ground-hi: #ddd0b8;
+  --hero-ground-lo: #cbbda3;
+  --hero-strip: #8a8574;
+  /* The wash the hero copy sits on, so its contrast never depends on the
+     picture behind it. Opaque at the text, gone by mid-panel. */
+  --hero-scrim:
+    linear-gradient(102deg,
+      rgba(255, 255, 255, 0.93) 0%,
+      rgba(255, 255, 255, 0.88) 26%,
+      rgba(255, 255, 255, 0.62) 44%,
+      rgba(255, 255, 255, 0.24) 62%,
+      rgba(255, 255, 255, 0) 80%),
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.30) 0%,
+      rgba(255, 255, 255, 0) 34%);
+  --hero-scrim-stacked: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.93) 0%,
+    rgba(255, 255, 255, 0.88) 52%,
+    rgba(255, 255, 255, 0.42) 78%,
+    rgba(255, 255, 255, 0.1) 100%);
+
+
+  /* -- the film -----------------------------------------------------------
+     The intro sequence flies a daylight sky, and it flies the same daylight
+     sky whichever theme the console is in - it is a rendered scene, not a
+     surface. So its overlay type cannot ride the ink ramp: in the dark theme
+     that ramp inverts to near-white and the chapter rail vanished into the
+     clouds. These are fixed dark values, stated once, and the halo under them
+     is white in both themes for the same reason. */
+  --film-ink: #06111f;      /* 18.4:1 on the sky - chapter labels, titles   */
+  --film-ink-2: #1d3350;   /* 12.3:1 - the provenance and timecode lines  */
+  --film-accent: #064a9e;   /* the active chapter and the markers           */
+  --film-glass: rgba(255, 255, 255, 0.84);
+  --film-rule: rgba(6, 17, 31, 0.26);
+  --film-halo: rgba(255, 255, 255, 0.96);
+  --film-halo-soft: rgba(255, 255, 255, 0.85);
+
+  /* -- ink -------------------------------------------------------------- */
+  /*
+    The ink ramp is a *text* ramp: every tier from --ink to --ink-4 clears
+    WCAG AA (4.5:1) on the lightest panel in the system, so no readable string
+    can land on a tier that cannot carry it. --ink-5 is deliberately outside
+    that contract - it is a hairline/decoration tone (scrollbar thumb, zero
+    marks, arrows) and is never used for type.
+  */
+  --ink: #0b1a2e;      /* 17.5:1 on white - titles, values, actual readings   */
+  --ink-2: #223850;    /* 12.0:1 - body copy, table cells, control labels     */
+  --ink-3: #3d5471;    /*  7.8:1 - field labels, captions, secondary rows     */
+  --ink-4: #566d8a;    /*  5.3:1 - helper text; the faintest tier that reads  */
+  --ink-5: #b2c1d3;    /* NOT a text colour - rules, ticks, inert marks       */
+
+  /* -- status ----------------------------------------------------------- */
+  --ok: #0aa06e;
+  --ok-dim: rgba(10, 160, 110, 0.10);
+  --caution: #d99a00;
+  --caution-dim: rgba(217, 154, 0, 0.11);
+  --warn: #ef7a1a;
+  --warn-dim: rgba(239, 122, 26, 0.11);
+  --crit: #e13232;
+  --crit-dim: rgba(225, 50, 50, 0.10);
+  --info: #1668e3;
+  --info-dim: rgba(22, 104, 227, 0.09);
+
+  /* -- semantic: the twin's two halves ---------------------------------- */
+  --expected: #7691b6;     /* what physics says should happen */
+  --actual: #0b1a2e;       /* what the sensors report */
+  --residual: #7739e0;     /* the difference - the whole project */
+  --residual-dim: rgba(119, 57, 224, 0.10);
+
+  /* -- provenance ------------------------------------------------------- */
+  --real: #0aa06e;
+  --simulated: #7739e0;
+  --derived: #1668e3;
+  --demo: #d99a00;
+
+  /* -- accent: aerospace blue, with cyan as its second note ------------- */
+  --accent: #0a6ed6;
+  --accent-2: #0aa7c2;
+  --accent-3: #10b6a4;
+  --accent-dim: rgba(10, 110, 214, 0.09);
+  --accent-soft: rgba(10, 110, 214, 0.16);
+
+  /* -- status, as TEXT --------------------------------------------------
+     The tokens above are picked for ink on paper: they are the hues that
+     read correctly as a chart line, a meter fill, a border or a lamp. At
+     11-13px on a white panel several of them - amber above all - fall well
+     under AA, so each one has a darkened twin that carries the same meaning
+     in type. Same hue, same saturation, enough luminance separation to be
+     legible. Graphics keep the bright token; words take the -ink twin.
+     All clear 4.9:1 on the darkest panel tone in the system. */
+  --ok-ink: #07734f;
+  --caution-ink: #8a6200;
+  --warn-ink: #a4500c;
+  --crit-ink: #bd1c1c;   /* clears AA on the tinted row a selected alert sits on, too */
+  --info-ink: #1560d2;
+  --accent-ink: #0a63c0;
+  --accent-2-ink: #07707f;
+  --accent-3-ink: #0a7266;
+  --residual-ink: #6a2fd0;
+  --expected-ink: #4d6a92;
+  --real-ink: #07734f;
+  --simulated-ink: #6a2fd0;
+  --derived-ink: #1560d2;
+  --demo-ink: #8a6200;
+
+  /* Gradient stops for filled controls that carry white type. The bright
+     ends of the original ramps put white at 2.9-3.8:1; these hold the same
+     blue-to-cyan sweep at a luminance white can actually sit on. */
+  --accent-lift: #0978c9;
+  --accent-2-deep: #08707f;
+
+  /* -- text on a saturated status fill -----------------------------------
+     Count badges and solid chips. In this theme the fills are the darkened
+     -ink tones, so the type on them is white. */
+  --on-solid: #ffffff;
+  --fill-crit: var(--crit-ink);
+  --fill-warn: var(--warn-ink);
+  --fill-info: var(--info-ink);
+
+  /* -- type ------------------------------------------------------------- */
+  --sans: 'Inter', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /*
+    Seven steps, each a clear jump from the last, so the level of a string is
+    legible from its size alone before a word of it is read. The floor is
+    11px: below that the uppercase tracking these labels carry stops helping
+    and starts hurting, and nothing in the console is secondary enough to
+    justify it.
+  */
+  --t-micro: 11px;     /* unit suffixes, ranks, provenance tags   */
+  --t-label: 12px;     /* uppercase field labels                  */
+  --t-small: 13px;     /* secondary rows, captions, buttons       */
+  --t-body: 14px;      /* body copy and table cells               */
+  --t-lead: 17px;      /* card headings, lead-in copy             */
+  --t-num: 23px;       /* the values a panel exists to show       */
+  --t-num-lg: 34px;    /* the one number a page is about          */
+  --t-hero: 48px;      /* boot / splash                           */
+  --t-page: 24px;      /* page title                              */
+  --t-section: 15px;   /* panel (section) title                   */
+
+  --track: 0.14em;
+  --track-wide: 0.22em;
+
+  /* -- geometry --------------------------------------------------------- */
+  --r-sm: 3px;
+  --r: 5px;
+  --r-lg: 10px;
+  --r-xl: 14px;
+
+  --gap-1: 4px;
+  --gap-2: 8px;
+  --gap-3: 12px;
+  --gap-4: 16px;
+  --gap-5: 22px;
+  --gap-6: 30px;
+
+  --rail: 216px;   /* the sidebar carries labels now, not just icons */
+  --topbar: 56px;
+
+  /* -- depth: cool, soft, never black --------------------------------- */
+  --shadow-1: 0 1px 2px rgba(19, 46, 84, 0.06), 0 1px 1px rgba(19, 46, 84, 0.04);
+  --shadow-2: 0 4px 18px rgba(19, 46, 84, 0.09), 0 1px 3px rgba(19, 46, 84, 0.05);
+  --shadow-3: 0 22px 60px rgba(19, 46, 84, 0.16), 0 2px 8px rgba(19, 46, 84, 0.06);
+  --glow-ok: 0 0 0 1px rgba(10, 160, 110, 0.28), 0 0 22px rgba(10, 160, 110, 0.10);
+  --glow-crit: 0 0 0 1px rgba(225, 50, 50, 0.3), 0 0 26px rgba(225, 50, 50, 0.12);
+
+  /* -- motion ----------------------------------------------------------- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --fast: 140ms;
+  --mid: 300ms;
+  --slow: 640ms;
+}
+
+
+/* ==========================================================================
+   Dark theme
+
+   Not an inversion. The light theme is paper under bright light; this is a
+   console in a darkened operations room, which is a different instrument. The
+   ground goes deep navy rather than grey, the hairlines carry the structure
+   that shadow carries in the light theme, and every status hue is re-picked at
+   the luminance it needs to read against a dark field - the light-theme greens
+   and blues are far too dark to survive here.
+
+   The ink ramp holds the same contract as the light one: --ink through --ink-4
+   all clear WCAG AA on the lightest panel in the set, and --ink-5 stays a
+   hairline tone that never carries type.
+   ========================================================================== */
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --body-bg:
+    radial-gradient(1300px 780px at 76% -14%, rgba(20, 120, 180, 0.16), transparent 62%),
+    radial-gradient(1000px 660px at 6% 108%, rgba(40, 90, 200, 0.13), transparent 60%),
+    linear-gradient(178deg, #0b1524 0%, #0a1220 46%, #070e19 100%);
+  --grid-line: rgba(150, 190, 240, 0.030);
+  --halo: rgba(5, 10, 20, 0.92);
+  --halo-soft: rgba(5, 10, 20, 0.82);
+
+  --void: #070e19;
+  --bg: #0a1220;
+  --bg-raised: #16223a;
+  --panel: #111c2e;
+  --panel-2: #16223a;
+  --panel-3: #1c2a44;
+  --hairline: #22304a;
+  --hairline-strong: #35486a;
+
+  /* Scrims for glass over the 3D stages. Dark, never black. */
+  --scrim-1: rgba(10, 18, 32, 0.62);
+  --scrim-2: rgba(10, 18, 32, 0.84);
+  --scrim-3: rgba(10, 18, 32, 0.94);
+  --scrim-edge: rgba(10, 18, 32, 0);
+
+  /* -- ink -------------------------------------------------------------- */
+  --ink: #f4f8fe;       /* 16.0:1 on --panel */
+  --ink-2: #d3dfef;     /* 12.7:1 */
+  --ink-3: #a8b9d0;     /*  8.6:1 */
+  --ink-4: #8fa0ba;     /*  6.4:1 - faintest tier; clears AA on a selected row too */
+  --ink-5: #3a4a64;     /* hairline tone, never type */
+
+  /* -- status: graphics -------------------------------------------------- */
+  --ok: #17c98d;
+  --ok-dim: rgba(23, 201, 141, 0.16);
+  --caution: #e8b230;
+  --caution-dim: rgba(232, 178, 48, 0.17);
+  --warn: #ff8a3d;
+  --warn-dim: rgba(255, 138, 61, 0.17);
+  --crit: #ff5252;
+  --crit-dim: rgba(255, 82, 82, 0.17);
+  --info: #4d93ff;
+  --info-dim: rgba(77, 147, 255, 0.16);
+
+  /* -- status: as text --------------------------------------------------- */
+  --ok-ink: #3ddba0;
+  --caution-ink: #f0c14b;
+  --warn-ink: #ff9d5c;
+  --crit-ink: #ff8a8a;
+  --info-ink: #66a8ff;
+  --accent-ink: #5aa6ff;
+  --accent-2-ink: #3fc9e0;
+  --accent-3-ink: #3fd6c0;
+  --residual-ink: #b98cff;
+  --expected-ink: #94aacc;
+  --real-ink: #3ddba0;
+  --simulated-ink: #b98cff;
+  --derived-ink: #66a8ff;
+  --demo-ink: #f0c14b;
+
+  /* -- the twin's two halves -------------------------------------------- */
+  --expected: #7c93b8;
+  --actual: #f4f8fe;
+  --residual: #a373f5;
+  --residual-dim: rgba(163, 115, 245, 0.18);
+
+  /* -- provenance -------------------------------------------------------- */
+  --real: #17c98d;
+  --simulated: #a373f5;
+  --derived: #4d93ff;
+  --demo: #e8b230;
+
+  /* -- accent ------------------------------------------------------------ */
+  --accent: #3d92ff;
+  --accent-2: #22b8d8;
+  --accent-3: #22c9b0;
+  --accent-dim: rgba(61, 146, 255, 0.16);
+  --accent-soft: rgba(61, 146, 255, 0.26);
+  --accent-lift: #2f7fe6;
+  --accent-2-deep: #1a93ad;
+
+  /* Inverted here: the dark theme's status hues are bright, so the ground is
+     what reads on them - white would sit at 2.7:1. */
+  --on-solid: #0a1220;
+  --fill-crit: var(--crit);
+  --fill-warn: var(--warn);
+  --fill-info: var(--info);
+
+  /* -- depth: the dark theme separates with light, not shadow ----------- */
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  --shadow-2: 0 6px 22px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.045);
+  --shadow-3: 0 24px 64px rgba(0, 0, 0, 0.58), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --glow-ok: 0 0 0 1px rgba(23, 201, 141, 0.42), 0 0 24px rgba(23, 201, 141, 0.18);
+  --glow-crit: 0 0 0 1px rgba(255, 82, 82, 0.46), 0 0 28px rgba(255, 82, 82, 0.20);
+  --surface-grad: linear-gradient(180deg, #16233a 0%, #111c2e 100%);
+  --topbar-grad: linear-gradient(180deg, rgba(17, 28, 46, 0.96), rgba(12, 20, 34, 0.93));
+  --rail-bg: rgba(13, 21, 36, 0.80);
+  --glass: rgba(17, 28, 46, 0.93);
+  --glass-soft: rgba(17, 28, 46, 0.80);
+  --glass-solid: rgba(17, 28, 46, 0.97);
+  --inset-hi: rgba(255, 255, 255, 0.06);
+  --fade-down: linear-gradient(180deg, var(--scrim-3) 30%, var(--scrim-edge));
+  --fade-up: linear-gradient(0deg, var(--scrim-3) 34%, var(--scrim-edge));
+  --hero-grad: linear-gradient(120deg, #16233a 0%, #101a2c 52%, #0b1422 100%);
+  --stage-bg: #0d1626;
+
+  --hero-photo: none;
+  --hero-sky-hi: #0d2140;
+  --hero-sky-mid: #35507a;
+  --hero-sky-lo: #a35f42;
+  --hero-sun: rgba(255, 160, 80, 0.78);
+  --hero-cloud: #55688a;
+  --hero-haze: #2e4467;
+  --hero-ridge-3: #2e4467;
+  --hero-ridge-2: #1b2c49;
+  --hero-ridge-1: #0f1c30;
+  --hero-base: #050a12;
+  --hero-ground-hi: #121a29;
+  --hero-ground-lo: #0a1220;
+  --hero-strip: #2b3a4e;
+  --hero-scrim:
+    linear-gradient(102deg,
+      rgba(10, 17, 30, 0.72) 0%,
+      rgba(10, 17, 30, 0.62) 30%,
+      rgba(10, 17, 30, 0.38) 50%,
+      rgba(10, 17, 30, 0.16) 68%,
+      rgba(10, 17, 30, 0) 84%),
+    linear-gradient(180deg,
+      rgba(17, 28, 46, 0.34) 0%,
+      rgba(17, 28, 46, 0) 34%);
+  --hero-scrim-stacked: linear-gradient(180deg,
+    rgba(17, 28, 46, 0.93) 0%,
+    rgba(17, 28, 46, 0.88) 52%,
+    rgba(17, 28, 46, 0.44) 78%,
+    rgba(17, 28, 46, 0.12) 100%);
+}

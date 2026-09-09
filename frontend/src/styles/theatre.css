@@ -1,0 +1,394 @@
+/* ==========================================================================
+   AEROTWIN - the narrated demonstration, full screen
+
+   The aircraft fills the viewport behind this layer. It is the shared 3D
+   stage in its fullscreen framing, not a second renderer, so the story is
+   told against the machine rather than beside it.
+
+   Everything here is chrome over that picture, which is why it lives on the
+   edges: the middle of the frame belongs to the aircraft.
+   ========================================================================== */
+
+.theatre {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+}
+
+.theatre button { pointer-events: auto; }
+
+/* A soft white bleed top and bottom, so type reads over terrain or sky
+   whatever the camera happens to be looking at. */
+.theatre__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 200px;
+  pointer-events: none;
+}
+
+.theatre__bar--top {
+  top: 0;
+  background: linear-gradient(180deg, var(--scrim-2), var(--scrim-edge));
+}
+
+.theatre__bar--bottom {
+  bottom: 0;
+  background: linear-gradient(0deg, var(--scrim-3) 26%, var(--scrim-edge));
+}
+
+/* ---- top bar ------------------------------------------------------------ */
+
+.theatre__top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 34px;
+}
+
+.theatre__spacer { flex: 1; }
+
+.theatre__src {
+  padding: 5px 12px;
+  border-radius: 100px;
+  border: 1px solid rgba(217, 154, 0, 0.34);
+  background: var(--glass-soft);
+  backdrop-filter: blur(8px);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: var(--demo-ink);
+  font-weight: 700;
+}
+
+.theatre__close {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--hairline-strong);
+  background: var(--glass-soft);
+  backdrop-filter: blur(8px);
+  color: var(--ink-3);
+  transition: all var(--fast) var(--ease);
+}
+
+.theatre__close:hover { color: var(--crit-ink); border-color: var(--crit); background: var(--panel); }
+
+/* ---- the engine, once it is the subject --------------------------------- */
+
+.theatre__engine {
+  position: absolute;
+  top: 92px;
+  right: 34px;
+  width: 380px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--hairline);
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-3);
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.theatre__engine-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 13px;
+  border-bottom: 1px solid var(--hairline);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+.theatre__engine-mode { color: var(--accent-ink); }
+.theatre__engine .engine3d { border: none; border-radius: 0; }
+
+/* ---- narration ---------------------------------------------------------- */
+
+.theatre__copy {
+  position: absolute;
+  left: 40px;
+  bottom: 130px;
+  max-width: 46ch;
+}
+
+.theatre__stage-tag {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 5px 13px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2-deep));
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(10, 110, 214, 0.28);
+}
+
+.theatre__title {
+  font-size: 46px;
+  font-weight: 200;
+  letter-spacing: 0.1em;
+  line-height: 1.04;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+.theatre__detail {
+  margin-top: 12px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  font-weight: 500;
+  max-width: 42ch;
+}
+
+.theatre__evidence {
+  /* A column, not a row: the readouts vary from "LINK NOMINAL" to a regime
+     count with a six-figure sample size, and a row lets the long ones wrap
+     back underneath the label. */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline-strong);
+  max-width: 34ch;
+}
+
+.theatre__evidence-k {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+.theatre__evidence-v {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  color: var(--accent-ink);
+}
+
+/* ---- pipeline and controls ----------------------------------------------- */
+
+.theatre__foot {
+  position: absolute;
+  left: 40px;
+  right: 40px;
+  bottom: 54px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.theatre__pipeline {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.theatre__step {
+  padding: 5px 11px;
+  border-radius: 100px;
+  border: 1px solid var(--hairline);
+  background: var(--glass-soft);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  color: var(--ink-3);
+  font-weight: 700;
+  transition: all var(--mid) var(--ease);
+}
+
+.theatre__step.is-done { color: var(--ink-2); border-color: var(--hairline-strong); }
+
+.theatre__step.is-active {
+  color: #fff;
+  background: var(--ink);
+  border-color: var(--ink);
+  box-shadow: 0 4px 14px rgba(11, 26, 46, 0.24);
+}
+
+.theatre__controls { display: flex; gap: 6px; }
+
+.theatre__btn {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--hairline-strong);
+  background: var(--glass-soft);
+  backdrop-filter: blur(8px);
+  color: var(--ink-2);
+  transition: all var(--fast) var(--ease);
+}
+
+.theatre__btn:hover { color: var(--accent-ink); border-color: var(--accent); background: var(--panel); }
+
+/* ---- beat rail and progress ---------------------------------------------- */
+
+.theatre__rail {
+  position: absolute;
+  left: 40px;
+  right: 40px;
+  bottom: 26px;
+  display: flex;
+  gap: 4px;
+}
+
+.theatre__tick {
+  flex: 1;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(11, 26, 46, 0.12);
+  transition: background var(--mid) var(--ease);
+}
+
+.theatre__tick.is-done { background: var(--ink-5); }
+.theatre__tick.is-active { background: var(--accent); box-shadow: 0 0 10px rgba(10, 110, 214, 0.5); }
+
+.theatre__progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: rgba(11, 26, 46, 0.07);
+}
+
+.theatre__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 220ms linear;
+}
+
+/* ---- responsive ---------------------------------------------------------- */
+
+@media (max-width: 1280px) {
+  .theatre__title { font-size: 36px; }
+  .theatre__engine { width: 330px; }
+  .theatre__copy { bottom: 120px; }
+}
+
+@media (max-width: 1000px) {
+  .theatre__engine { display: none; }
+  .theatre__copy { left: 26px; right: 26px; max-width: none; }
+  .theatre__title { font-size: 30px; }
+  .theatre__foot { left: 26px; right: 26px; }
+  /* Only where the narration is, and where it has been. */
+  .theatre__pipeline .theatre__step:not(.is-active):not(.is-done) { display: none; }
+}
+
+@media (max-height: 780px) {
+  .theatre__title { font-size: 32px; }
+  .theatre__copy { bottom: 112px; }
+  .theatre__engine { top: 82px; width: 320px; }
+}
+
+/* ==========================================================================
+   First paint
+
+   Shown while the cinematic chunks stream in. It lives in the entry chunk and
+   imports nothing heavy, so it paints with the document rather than after the
+   renderer - the difference between a branded opening and an apparently blank
+   page on a cold load.
+   ========================================================================== */
+
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(1200px 800px at 50% 10%, var(--panel) 0%, transparent 60%),
+    linear-gradient(178deg, #f7fbff 0%, #eaf2fb 54%, #dfeaf7 100%);
+}
+
+.splash__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: splash-in 620ms var(--ease) both;
+}
+
+.splash__mark { color: var(--accent-ink); }
+
+.splash__name {
+  font-family: var(--sans);
+  font-size: 26px;
+  font-weight: 200;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  color: var(--ink);
+}
+
+.splash__sub {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.4em;
+  color: var(--ink-3);
+  font-weight: 600;
+  margin-top: -6px;
+}
+
+.splash__bar {
+  position: relative;
+  width: 168px;
+  height: 2px;
+  margin-top: 10px;
+  border-radius: 2px;
+  background: rgba(11, 26, 46, 0.08);
+  overflow: hidden;
+}
+
+/* An indeterminate sweep: the chunk gives no progress events, so a bar that
+   claimed a percentage would be inventing one. */
+.splash__bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 42%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  animation: splash-sweep 1.15s var(--ease-in-out) infinite;
+}
+
+.splash__label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.32em;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+@keyframes splash-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes splash-sweep {
+  0% { transform: translateX(-110%); }
+  100% { transform: translateX(280%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash__bar-fill { animation: none; width: 100%; }
+}

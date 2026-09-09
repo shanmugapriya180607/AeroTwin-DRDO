@@ -1,0 +1,1174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AEROTWIN — Technical Documentation</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm 20mm 16mm; }
+
+  :root {
+    --ink: #0b1a2e;
+    --ink-2: #2c4056;
+    --ink-3: #5a7089;
+    --rule: #d8e2ee;
+    --rule-soft: #eaf0f7;
+    --accent: #0a6ed6;
+    --accent-soft: #eef5fd;
+    --ok: #0a8a60;
+    --warn: #c2660f;
+    --crit: #c62828;
+    --residual: #6b32c9;
+    --panel: #f6f9fd;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Inter, -apple-system, system-ui, sans-serif;
+    font-size: 9.6pt;
+    line-height: 1.55;
+    color: var(--ink);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  code, .mono { font-family: "Cascadia Mono", Consolas, "SF Mono", monospace; }
+  code {
+    font-size: 8.6pt;
+    background: var(--rule-soft);
+    padding: 0.5pt 3pt;
+    border-radius: 2px;
+    color: var(--ink-2);
+  }
+  pre {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-left: 2.5px solid var(--accent);
+    border-radius: 3px;
+    padding: 8pt 10pt;
+    font-family: "Cascadia Mono", Consolas, monospace;
+    font-size: 8.2pt;
+    line-height: 1.5;
+    overflow-x: hidden;
+    white-space: pre-wrap;
+    color: var(--ink-2);
+    page-break-inside: avoid;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+
+  h1, h2, h3, h4 { color: var(--ink); margin: 0; font-weight: 700; }
+
+  h2 {
+    font-size: 15pt;
+    letter-spacing: -0.2pt;
+    margin: 22pt 0 2pt;
+    padding-bottom: 4pt;
+    border-bottom: 1.5px solid var(--ink);
+    page-break-after: avoid;
+  }
+  h2 .n {
+    display: inline-block;
+    min-width: 26pt;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  h3 {
+    font-size: 11pt;
+    margin: 15pt 0 3pt;
+    color: var(--ink);
+    page-break-after: avoid;
+  }
+  h4 {
+    font-size: 9.4pt;
+    margin: 11pt 0 2pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+    page-break-after: avoid;
+  }
+
+  p { margin: 5pt 0; }
+  ul, ol { margin: 5pt 0 5pt 0; padding-left: 15pt; }
+  li { margin: 2.5pt 0; }
+  strong { font-weight: 700; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 7pt 0 9pt;
+    font-size: 8.6pt;
+    page-break-inside: avoid;
+  }
+  th {
+    text-align: left;
+    font-weight: 700;
+    font-size: 7.6pt;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--ink-2);
+    border-bottom: 1.2px solid var(--ink-3);
+    padding: 4pt 6pt 3pt 0;
+  }
+  td {
+    padding: 3.5pt 6pt 3.5pt 0;
+    border-bottom: 0.6px solid var(--rule);
+    vertical-align: top;
+    color: var(--ink-2);
+  }
+  td:first-child { color: var(--ink); font-weight: 600; }
+  td.num, th.num { text-align: right; font-family: "Cascadia Mono", Consolas, monospace; }
+
+  .tag {
+    display: inline-block;
+    font-size: 7.2pt;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 1pt 4.5pt;
+    border-radius: 2.5px;
+    border: 0.8px solid currentColor;
+    white-space: nowrap;
+  }
+  .tag--ok { color: var(--ok); background: #eaf7f1; }
+  .tag--warn { color: var(--warn); background: #fdf3e8; }
+  .tag--crit { color: var(--crit); background: #fdeded; }
+  .tag--info { color: var(--accent); background: var(--accent-soft); }
+  .tag--sim { color: var(--residual); background: #f2ecfd; }
+
+  .note {
+    background: var(--accent-soft);
+    border-left: 2.5px solid var(--accent);
+    padding: 7pt 10pt;
+    margin: 8pt 0;
+    border-radius: 0 3px 3px 0;
+    page-break-inside: avoid;
+  }
+  .note--warn { background: #fdf3e8; border-left-color: var(--warn); }
+  .note--key { background: #f2ecfd; border-left-color: var(--residual); }
+  .note p:first-child { margin-top: 0; }
+  .note p:last-child { margin-bottom: 0; }
+  .note__k {
+    display: block;
+    font-size: 7.4pt;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 2pt;
+  }
+
+  /* ---- cover ---- */
+  .cover {
+    height: 247mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    page-break-after: always;
+  }
+  .cover__mark {
+    width: 46pt; height: 46pt;
+    margin-bottom: 20pt;
+  }
+  .cover h1 {
+    font-size: 40pt;
+    letter-spacing: 6pt;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .cover__sub {
+    font-size: 11pt;
+    letter-spacing: 3.4pt;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-top: 6pt;
+  }
+  .cover__rule { height: 2px; background: var(--ink); margin: 20pt 0 16pt; width: 100%; }
+  .cover__title { font-size: 17pt; font-weight: 700; }
+  .cover__blurb { font-size: 10pt; color: var(--ink-2); max-width: 118mm; margin-top: 8pt; }
+  .cover__meta {
+    margin-top: auto;
+    padding-top: 20pt;
+    border-top: 0.8px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10pt;
+    font-size: 8pt;
+  }
+  .cover__meta dt {
+    font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-3); font-size: 7pt; margin-bottom: 2pt;
+  }
+  .cover__meta dd { margin: 0; font-weight: 600; color: var(--ink); }
+
+  /* ---- table of contents ---- */
+  .toc { page-break-after: always; }
+  .toc ol { list-style: none; padding: 0; counter-reset: toc; }
+  .toc li {
+    counter-increment: toc;
+    display: flex;
+    align-items: baseline;
+    gap: 6pt;
+    padding: 3.6pt 0;
+    border-bottom: 0.6px solid var(--rule-soft);
+    font-size: 9.4pt;
+  }
+  .toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    font-family: Consolas, monospace;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 8.4pt;
+    min-width: 17pt;
+  }
+  .toc .t { font-weight: 600; }
+  .toc .d { color: var(--ink-3); font-size: 8.4pt; margin-left: auto; text-align: right; max-width: 96mm; }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+  .avoid { page-break-inside: avoid; }
+  .newpage { page-break-before: always; }
+
+  figure { margin: 10pt 0; page-break-inside: avoid; }
+  figcaption {
+    font-size: 7.8pt; color: var(--ink-3); margin-top: 4pt;
+    text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600;
+  }
+  svg { display: block; max-width: 100%; }
+
+  .foot {
+    margin-top: 26pt; padding-top: 8pt;
+    border-top: 1.2px solid var(--ink);
+    font-size: 8pt; color: var(--ink-3);
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════ COVER ══════════════════════════════ -->
+<section class="cover">
+  <svg class="cover__mark" viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="22" stroke="#0a6ed6" stroke-width="1.6"/>
+    <circle cx="24" cy="24" r="14.5" stroke="#0a6ed6" stroke-width="0.8" opacity="0.45"/>
+    <path d="M24 8 L33 30 L24 25.5 L15 30 Z" fill="#0b1a2e"/>
+    <circle cx="24" cy="24" r="2.6" fill="#0aa7c2"/>
+  </svg>
+
+  <h1>AEROTWIN</h1>
+  <div class="cover__sub">Propulsion Intelligence</div>
+  <div class="cover__rule"></div>
+
+  <div class="cover__title">Technical Documentation</div>
+  <p class="cover__blurb">
+    A residual-driven digital twin for MALE UAV aero piston engines. A physics
+    model runs in lockstep with the engine on the same inputs; the difference
+    between them — the residual — is what every detector downstream reads. This
+    document describes how the prototype is built, how each layer works, and
+    what it deliberately refuses to claim.
+  </p>
+
+  <dl class="cover__meta">
+    <div><dt>Programme</dt><dd>PS-26054</dd></div>
+    <div><dt>Model</dt><dd>FGPISTON-180 v1.0.0</dd></div>
+    <div><dt>Build status</dt><dd>Research prototype</dd></div>
+    <div><dt>Airworthiness</dt><dd>Not certified</dd></div>
+  </dl>
+</section>
+
+<!-- ══════════════════════════════ TOC ══════════════════════════════ -->
+<section class="toc">
+  <h2 style="margin-top:0"><span class="n"></span>Contents</h2>
+  <ol>
+    <li><span class="t">The Core Claim</span><span class="d">what makes this a twin and not a dashboard</span></li>
+    <li><span class="t">System Architecture</span><span class="d">two processes, one contract</span></li>
+    <li><span class="t">The Data Layer</span><span class="d">the source contract and its four implementations</span></li>
+    <li><span class="t">Provenance</span><span class="d">measured, generated, derived — and why it is enforced</span></li>
+    <li><span class="t">The Physics Model</span><span class="d">how the expectation is produced</span></li>
+    <li><span class="t">The Residual Engine</span><span class="d">normalisation, drift, persistence</span></li>
+    <li><span class="t">State Estimation</span><span class="d">separating the engine's identity from its faults</span></li>
+    <li><span class="t">Detection and Fusion</span><span class="d">a readable baseline and a learned model</span></li>
+    <li><span class="t">Abstention and the Model Envelope</span><span class="d">when the system refuses to answer</span></li>
+    <li><span class="t">Explanation and Advisory</span><span class="d">from a score to an action</span></li>
+    <li><span class="t">The Simulation Clock</span><span class="d">one authority for everything that moves</span></li>
+    <li><span class="t">The Console</span><span class="d">routes, screens, and the 3D stage</span></li>
+    <li><span class="t">API Reference</span><span class="d">REST and WebSocket surface</span></li>
+    <li><span class="t">Running the Prototype</span><span class="d">installation and the demonstration path</span></li>
+    <li><span class="t">Verification</span><span class="d">what was tested and what the results were</span></li>
+    <li><span class="t">Limitations</span><span class="d">stated before anyone has to find them</span></li>
+  </ol>
+</section>
+
+<!-- ══════════════════════════════ 01 ══════════════════════════════ -->
+<h2><span class="n">01</span>The Core Claim</h2>
+
+<p>
+  Most engine-monitoring systems compare a sensor reading against a threshold.
+  That works for failures and is nearly useless for degradation, because a
+  cylinder can run thirty degrees hotter than it should and still sit well
+  inside its redline — the reading is <em>normal for the limit</em> and
+  <em>abnormal for the conditions</em>.
+</p>
+
+<p>AEROTWIN is built on the second comparison. Every second:</p>
+
+<figure>
+<svg viewBox="0 0 720 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6.5" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 z" fill="#5a7089"/>
+    </marker>
+  </defs>
+  <rect x="2" y="14" width="132" height="40" rx="4" fill="#f6f9fd" stroke="#cddaea"/>
+  <text x="68" y="32" font-size="10.5" font-weight="700" fill="#0b1a2e" text-anchor="middle" font-family="sans-serif">OPERATING INPUTS</text>
+  <text x="68" y="45" font-size="8.5" fill="#5a7089" text-anchor="middle" font-family="sans-serif">throttle · alt · OAT · IAS</text>
+
+  <path d="M136 26 L196 26" stroke="#5a7089" stroke-width="1.2" marker-end="url(#a)"/>
+  <path d="M136 42 L196 82" stroke="#5a7089" stroke-width="1.2" marker-end="url(#a)"/>
+
+  <rect x="200" y="6" width="150" height="40" rx="4" fill="#eef5fd" stroke="#0a6ed6"/>
+  <text x="275" y="24" font-size="10.5" font-weight="700" fill="#0a6ed6" text-anchor="middle" font-family="sans-serif">PHYSICS MODEL</text>
+  <text x="275" y="37" font-size="8.5" fill="#5a7089" text-anchor="middle" font-family="sans-serif">what should be happening</text>
+
+  <rect x="200" y="66" width="150" height="40" rx="4" fill="#f6f9fd" stroke="#0b1a2e"/>
+  <text x="275" y="84" font-size="10.5" font-weight="700" fill="#0b1a2e" text-anchor="middle" font-family="sans-serif">THE ENGINE</text>
+  <text x="275" y="97" font-size="8.5" fill="#5a7089" text-anchor="middle" font-family="sans-serif">what is happening</text>
+
+  <path d="M352 26 L412 46" stroke="#5a7089" stroke-width="1.2" marker-end="url(#a)"/>
+  <path d="M352 86 L412 66" stroke="#5a7089" stroke-width="1.2" marker-end="url(#a)"/>
+
+  <rect x="418" y="36" width="126" height="40" rx="4" fill="#f2ecfd" stroke="#6b32c9" stroke-width="1.4"/>
+  <text x="481" y="54" font-size="11" font-weight="800" fill="#6b32c9" text-anchor="middle" font-family="sans-serif">RESIDUAL</text>
+  <text x="481" y="67" font-size="8.5" fill="#5a7089" text-anchor="middle" font-family="sans-serif">actual − expected</text>
+
+  <path d="M546 56 L600 56" stroke="#5a7089" stroke-width="1.2" marker-end="url(#a)"/>
+
+  <rect x="604" y="36" width="114" height="40" rx="4" fill="#f6f9fd" stroke="#cddaea"/>
+  <text x="661" y="50" font-size="9.5" font-weight="700" fill="#0b1a2e" text-anchor="middle" font-family="sans-serif">DETECTION</text>
+  <text x="661" y="64" font-size="8.5" fill="#5a7089" text-anchor="middle" font-family="sans-serif">health · advisory</text>
+</svg>
+<figcaption>The lockstep loop. Both halves see identical inputs; only the residual leaves.</figcaption>
+</figure>
+
+<div class="note note--key">
+  <span class="note__k">The invariant</span>
+  <p>
+    <strong>Nothing in the analytics stack reads a raw sensor value.</strong>
+    The detector, the health index, the explanation and the advisory all consume
+    residuals. That is the difference between a twin and a dashboard with a
+    3D model on it, and it is enforced structurally: the detector's feature
+    vector is built from <code>ChannelResidual</code> objects, which do not
+    expose an unnormalised reading.
+  </p>
+</div>
+
+<h3>Why per-cylinder asymmetry is the diagnostic basis</h3>
+<p>
+  All four cylinders share an intake, an exhaust system, a cooling airflow and a
+  crankshaft. Anything that changes the whole engine — a throttle movement, a
+  climb, a hot day — moves all four together. A fault in <em>one</em> cylinder
+  moves one of them relative to the other three. So the quantity that carries
+  fault information is not CHT, and not even the CHT residual, but the
+  <strong>dispersion of the four CHT residuals about their own median</strong>.
+  This is why the system can localise to a cylinder at all, and why a corpus
+  without per-cylinder instrumentation cannot support that claim (§09).
+</p>
+
+<!-- ══════════════════════════════ 02 ══════════════════════════════ -->
+<h2><span class="n">02</span>System Architecture</h2>
+
+<p>
+  Two processes. The backend owns the twin and the truth; the frontend is a
+  viewer with one exception — it can run a reduced model of its own when the
+  backend is absent, and says so on every value.
+</p>
+
+<table>
+  <thead><tr><th style="width:22%">Layer</th><th style="width:26%">Technology</th><th>Responsibility</th></tr></thead>
+  <tbody>
+    <tr><td>Twin runtime</td><td>Python 3, asyncio</td><td>The lockstep clock at 5 Hz, stepping 1 Hz samples through physics, residual, estimator and detector</td></tr>
+    <tr><td>Physics</td><td>In-process FGPiston-class model; JSBSim optional</td><td>Produces the expectation for every channel from the operating inputs</td></tr>
+    <tr><td>Analytics</td><td>NumPy, SciPy, scikit-learn</td><td>Residual engine, state estimator, baseline GLM, Isolation Forest, calibration, advisory</td></tr>
+    <tr><td>API</td><td>FastAPI</td><td>REST surface and four WebSocket topics</td></tr>
+    <tr><td>Console</td><td>React 18, TypeScript, Zustand</td><td>Thirteen operator screens and the simulation control surface</td></tr>
+    <tr><td>3D</td><td>Three.js, React Three Fiber</td><td>Aircraft, sector, terrain, engine assembly, thermal and airflow views</td></tr>
+    <tr><td>Charts</td><td>Apache ECharts</td><td>Expected/actual pairs, residual bands, health trend</td></tr>
+  </tbody>
+</table>
+
+<h3>The lockstep loop</h3>
+<p>
+  The backend's clock runs at 5 Hz and advances
+  <code>time_scale ÷ 5</code> one-second samples per tick, so a 20× replay steps
+  four samples per tick and a 200× demonstration steps forty. The loop is wrapped
+  so a failure anywhere in the analytics stack degrades the diagnosis rather than
+  stopping the stream — a ground station that goes silent is a worse failure than
+  one reporting reduced capability.
+</p>
+
+<pre><code>while running:
+    if not paused and datalink:
+        for _ in range(samples_this_tick):
+            frame = source.read()          # 1 Hz sample, any source
+            runtime.step(frame)            # physics -> residual -> estimator -> detector
+    broadcast()                            # four topics, only what changed
+    sleep(0.2 - elapsed)</code></pre>
+
+<!-- ══════════════════════════════ 03 ══════════════════════════════ -->
+<h2><span class="n">03</span>The Data Layer</h2>
+
+<p>
+  The architectural centrepiece is <code>sources/base.py</code>. Every origin —
+  a real corpus, the team corpus, the demonstration simulator, a live CAN bus —
+  implements the same interface and emits the same frame shape. Everything
+  downstream is written against that contract and never against a particular
+  source.
+</p>
+
+<pre><code>class DataSource(abc.ABC):
+    @property
+    def descriptor(self) -> SourceDescriptor: ...
+    def open(self, **kwargs) -> None: ...
+    def read(self) -> TelemetryFrame | None: ...
+
+@dataclass
+class TelemetryFrame:
+    t: float                    # mission elapsed seconds
+    wall_clock: str
+    flight_id: str
+    source_id: str
+    phase: str
+    channels: dict[str, float]  # sensor readings
+    inputs:   dict[str, float]  # control + ambient, shared with the twin
+    provenance: dict[str, str]  # per channel: REAL | SIMULATED | DERIVED</code></pre>
+
+<div class="note">
+  <span class="note__k">Why this matters</span>
+  <p>
+    Adapting AEROTWIN to a DRDO/VRDE test rig is <strong>one class</strong>. Not
+    a rewrite, not a re-training, not a schema migration — one implementation of
+    three methods. The claim is testable, and §03.2 is the test: a corpus with a
+    different schema, different units and a different level of instrumentation
+    was dropped in without touching anything downstream.
+  </p>
+</div>
+
+<h3>03.1 &nbsp;The four sources</h3>
+<table>
+  <thead><tr><th style="width:22%">Source</th><th style="width:14%">Kind</th><th style="width:15%">Provenance</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>NGAFID replay</td><td>REPLAY</td><td><span class="tag tag--ok">REAL</span></td><td>NGAFID-MC (Zenodo 6624956, CC-BY-4.0), mounted via <code>AEROTWIN_NGAFID_DIR</code>, never vendored — 5.4 GB of 1 Hz flight data</td></tr>
+    <tr><td>Team corpus</td><td>REPLAY</td><td><span class="tag tag--sim">SIMULATED</span></td><td>4,200 rows shipped in-repo; see below</td></tr>
+    <tr><td>Demo simulator</td><td>SYNTHETIC</td><td><span class="tag tag--warn">DEMO</span></td><td>Runs the same thermodynamics against a <em>hidden</em> engine state the twin cannot see</td></tr>
+    <tr><td>SocketCAN</td><td>LIVE</td><td><span class="tag tag--ok">REAL</span></td><td>Deployment interface for a real engine bus; implemented, not exercised in this build</td></tr>
+  </tbody>
+</table>
+
+<p>
+  The demonstration simulator deserves a note. It is <strong>not</strong> a
+  random number generator. It runs the same thermodynamic model the twin uses,
+  but against a hidden truth carrying a unit-specific fingerprint (volumetric
+  efficiency, cooling effectiveness and per-cylinder trim slightly off nominal —
+  every real engine has one), a progressive degradation mechanism, thermal
+  inertia, sensor noise and slow sensor bias. The twin is never told about any of
+  it. The residual it computes is therefore a genuine emergent quantity rather
+  than a scripted number.
+</p>
+
+<h3>03.2 &nbsp;The team corpus, and what it proved</h3>
+<p>
+  The corpus from the team's data workstream
+  (<code>MONISHA-tech316/aerotwin-person1</code>) is generated by a documented
+  simulator — its own generator adds Gaussian noise to fixed baselines — so every
+  frame is tagged <span class="tag tag--sim">SIMULATED</span> and its
+  <code>state</code>/<code>fault</code> columns are described as generator labels,
+  never as maintenance findings.
+</p>
+
+<table>
+  <thead><tr><th style="width:26%">File</th><th class="num" style="width:12%">Rows</th><th class="num" style="width:12%">Rate</th><th>Ground truth</th></tr></thead>
+  <tbody>
+    <tr><td>normal.csv</td><td class="num">2,000</td><td class="num">1 Hz</td><td>NONE</td></tr>
+    <tr><td>degradation.csv</td><td class="num">1,000</td><td class="num">1 Hz</td><td>MECHANICAL_DEGRADATION</td></tr>
+    <tr><td>faults.csv</td><td class="num">1,200</td><td class="num">1 Hz</td><td>OVERHEATING, VIBRATION, PRESSURE_DROP, MECHANICAL_DEGRADATION (300 each)</td></tr>
+  </tbody>
+</table>
+
+<h4>Unit decisions, recorded rather than hidden</h4>
+<p>
+  Each mapping is a judgement about what the generator's baseline physically
+  <em>is</em>. Every one is stored with its source column and factor, and the
+  Dataset screen renders the conversion table so it can be checked:
+</p>
+
+<table>
+  <thead><tr><th style="width:19%">Source</th><th style="width:10%">Unit</th><th style="width:19%">Channel</th><th style="width:10%">Unit</th><th>Reasoning</th></tr></thead>
+  <tbody>
+    <tr><td>pressure</td><td>bar</td><td>oil_press_psi</td><td>psi</td><td>×14.5038 — 4.2 bar → 61 psi, nominal oil pressure for this engine class</td></tr>
+    <tr><td>temperature</td><td>°C</td><td>oil_temp_c</td><td>°C</td><td>Head temps run 150–250 °C; a 78 °C baseline is an oil temperature, and OVERHEATING taking it to 105–125 °C fits that reading</td></tr>
+    <tr><td>fuel_flow</td><td>kg/h</td><td>fuel_flow_gph</td><td>gph</td><td>÷2.7255 — avgas at 0.72 kg/L</td></tr>
+    <tr><td>altitude</td><td>m</td><td>altitude_ft</td><td>ft</td><td>×3.28084</td></tr>
+    <tr><td>rpm, vibration, ambient_temperature</td><td>—</td><td>rpm, vibration_g, oat_c</td><td>—</td><td>Direct</td></tr>
+  </tbody>
+</table>
+
+<p>
+  The original row is preserved on every frame, so nothing is lossy and the
+  conversion can always be checked against the source. Eleven AEROTWIN channels
+  have no column in this corpus — eight per-cylinder, plus manifold pressure,
+  airspeed and injection timing — and the adapter reports them as absent rather
+  than synthesising them.
+</p>
+
+<!-- ══════════════════════════════ 04 ══════════════════════════════ -->
+<h2><span class="n">04</span>Provenance</h2>
+
+<p>
+  Eighteen channels at 1 Hz. Sixteen are measurable from a corpus; two have no
+  counterpart in any available corpus and are produced by the physics model.
+</p>
+
+<div class="cols">
+<table>
+  <thead><tr><th>Channel</th><th style="width:22%">Unit</th><th style="width:26%">Source</th></tr></thead>
+  <tbody>
+    <tr><td>RPM</td><td>rpm</td><td><span class="tag tag--ok">Measurable</span></td></tr>
+    <tr><td>Manifold pressure</td><td>inHg</td><td><span class="tag tag--ok">Measurable</span></td></tr>
+    <tr><td>Fuel flow</td><td>gph</td><td><span class="tag tag--ok">Measurable</span></td></tr>
+    <tr><td>EGT 1–4</td><td>°C</td><td><span class="tag tag--ok">Measurable</span></td></tr>
+    <tr><td>CHT 1–4</td><td>°C</td><td><span class="tag tag--ok">Measurable</span></td></tr>
+  </tbody>
+</table>
+<table>
+  <thead><tr><th>Channel</th><th style="width:22%">Unit</th><th style="width:26%">Source</th></tr></thead>
+  <tbody>
+    <tr><td>Oil pressure</td><td>psi</td><td><span class="tag tag--ok">Measurable</span></td></tr>
+    <tr><td>Oil temperature</td><td>°C</td><td><span class="tag tag--ok">Measurable</span></td></tr>
+    <tr><td>OAT / Altitude / IAS</td><td>°C, ft, kt</td><td><span class="tag tag--ok">Measurable</span></td></tr>
+    <tr><td>Vibration</td><td>g rms</td><td><span class="tag tag--sim">SIMULATED</span></td></tr>
+    <tr><td>Injection timing</td><td>°BTDC</td><td><span class="tag tag--sim">SIMULATED</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note note--warn">
+  <span class="note__k">A distinction the code enforces</span>
+  <p>
+    A channel's registry provenance says whether it <em>can</em> be measured —
+    that is a property of the contract. Whether it <em>was</em> depends on which
+    source currently holds the live seat, and only the source descriptor knows
+    that. Every <code>REAL</code> badge in the console passes through a single
+    selector that consults the descriptor, so a badge can never end up on the
+    output of the simulator. Two different questions, two different answers, one
+    gate.
+  </p>
+</div>
+
+<!-- ══════════════════════════════ 05 ══════════════════════════════ -->
+<h2><span class="n">05</span>The Physics Model</h2>
+
+<p>
+  A lumped-parameter FGPiston-class model of a 180 hp, four-cylinder,
+  horizontally opposed, air-cooled, fuel-injected engine (Lycoming IO-360 class).
+  It consumes throttle, mixture, altitude, OAT and airspeed and produces an
+  expectation for every modelled channel.
+</p>
+
+<table>
+  <thead><tr><th style="width:30%">Stage</th><th>What it computes</th></tr></thead>
+  <tbody>
+    <tr><td>Atmosphere</td><td>Density ratio from pressure altitude via the ISA relation <code>(1 − 6.875e−6·h)<sup>4.2561</sup></code></td></tr>
+    <tr><td>Induction</td><td>Manifold pressure from throttle position and ambient density; volumetric efficiency from RPM and MAP</td></tr>
+    <tr><td>Combustion</td><td>Indicated power from air mass flow and mixture; brake power after friction; fuel flow from BSFC</td></tr>
+    <tr><td>Thermal</td><td>Head heat rejection against cooling mass flow — a function of airspeed and density — giving CHT; exhaust enthalpy giving EGT</td></tr>
+    <tr><td>Lubrication</td><td>Oil pressure from RPM; oil temperature from power and OAT</td></tr>
+    <tr><td>Inertia</td><td>First-order lag applied identically to expectation and observation (τ ≈ 34 s CHT, 7 s EGT, 150 s oil)</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <span class="note__k">Why the lag is applied to both sides</span>
+  <p>
+    Cylinder heads and oil do not follow a power change instantly. If only the
+    observation carried thermal inertia, every throttle transient would
+    manufacture a residual that decayed over the next half-minute and the
+    detector would fire on ordinary flying. Filtering both halves with the same
+    time constants means a transient produces no residual at all — which is
+    correct, because nothing is wrong.
+  </p>
+</div>
+
+<p>
+  Installing <code>jsbsim</code> switches the physics half from the in-process
+  model to JSBSim itself, with no other code change. The physics backend reports
+  which one is active on the Architecture screen.
+</p>
+
+<!-- ══════════════════════════════ 06 ══════════════════════════════ -->
+<h2><span class="n">06</span>The Residual Engine</h2>
+
+<p>
+  A raw difference is not comparable across channels: eight degrees of CHT and
+  eight rpm are not the same size of surprise. Each channel therefore carries a
+  <strong>scale</strong> — the standard deviation of its residual over
+  observed healthy, steady-state operation — frozen once the baseline locks.
+</p>
+
+<table>
+  <thead><tr><th style="width:22%">Quantity</th><th style="width:22%">Symbol</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td>Residual</td><td><code>r = observed − expected</code></td><td>The raw difference, in the channel's own unit</td></tr>
+    <tr><td>Normalised</td><td><code>z = r / scale</code></td><td>Comparable across channels; the detector's input</td></tr>
+    <tr><td>Drift</td><td><code>EWMA(r)</code></td><td>Slow component — a developing fault, not a gust</td></tr>
+    <tr><td>Persistence</td><td><code>CUSUM(|z| − k)</code></td><td>How long the deviation has held; separates a real drift from a spike</td></tr>
+    <tr><td>Asymmetry</td><td><code>EWMA(r)ᵢ − median</code></td><td>Per-cylinder deviation from its three siblings — the localising quantity</td></tr>
+  </tbody>
+</table>
+
+<p>
+  The steady-state gate matters. Residuals are only admitted to the baseline and
+  to the learned model while the operating point is steady, because a transient
+  residual is a modelling artefact and training on it teaches the detector that
+  artefacts are normal.
+</p>
+
+<!-- ══════════════════════════════ 07 ══════════════════════════════ -->
+<h2><span class="n">07</span>State Estimation</h2>
+
+<p>
+  Every engine leaves the factory slightly different, and those differences are
+  not faults. The state estimator separates the two by fitting three slowly
+  varying parameters that describe <em>this</em> engine's identity:
+</p>
+
+<ul>
+  <li><strong>Volumetric efficiency</strong> — how well this engine breathes relative to nominal.</li>
+  <li><strong>Cooling effectiveness</strong> — how well its cowling and baffles reject heat.</li>
+  <li><strong>Per-cylinder trim</strong> — the fuel/air distribution across the four cylinders.</li>
+</ul>
+
+<p>
+  These are estimated from healthy operation and then held. A fault appears as a
+  residual the estimator <em>cannot</em> absorb, which is exactly the definition
+  wanted: a persistent, localised, unexplainable deviation. The estimator is
+  gated — it reports <code>LEARNING</code> until it has enough steady healthy
+  evidence and only then <code>LOCKED</code>, and while it is learning the
+  detector's confidence is capped.
+</p>
+
+<!-- ══════════════════════════════ 08 ══════════════════════════════ -->
+<h2><span class="n">08</span>Detection and Fusion</h2>
+
+<p>Two detectors, deliberately different in character, run on the same residual features.</p>
+
+<h3>08.1 &nbsp;The transparent baseline</h3>
+<p>
+  A linear model over named residual features. It is not there because it is the
+  most powerful thing available — it is there because a propulsion engineer can
+  read it, argue with it, and change a coefficient. Every term has a physical
+  meaning and a unit. When the system says a cylinder is deviating, this is the
+  half that can be interrogated.
+</p>
+
+<h3>08.2 &nbsp;The learned model</h3>
+<table>
+  <tbody>
+    <tr><td style="width:30%">Algorithm</td><td>Isolation Forest, 200 estimators (scikit-learn)</td></tr>
+    <tr><td>Supervision</td><td>Unsupervised — fitted on normality, not on labelled faults</td></tr>
+    <tr><td>Input</td><td>9 residual features: CHT/EGT asymmetry, CHT drift, normalised z, persistence, trim divergence, EGT trim divergence, CHT/EGT agreement, CHT dispersion</td></tr>
+    <tr><td>Training set</td><td>240 steady-state healthy residual vectors pooled across four cylinders, of <em>this</em> engine</td></tr>
+    <tr><td>Until then</td><td>Reports <code>UNTRAINED</code> and contributes exactly zero to the fused score</td></tr>
+  </tbody>
+</table>
+
+<p>
+  Fitting on this engine's own healthy residuals — rather than on a fleet — means
+  the model learns what normal looks like <em>here</em>, so a unit that has always
+  run one cylinder slightly warm does not generate a permanent false positive.
+</p>
+
+<h3>08.3 &nbsp;Fusion</h3>
+<p>
+  The physics baseline keeps the majority weight and an abstaining learned model
+  changes nothing at all, so the fused score can never be worse-founded than the
+  transparent half alone. A learned model that disagrees can raise or lower
+  confidence; it cannot manufacture a detection on its own.
+</p>
+
+<!-- ══════════════════════════════ 09 ══════════════════════════════ -->
+<h2 class="newpage"><span class="n">09</span>Abstention and the Model Envelope</h2>
+
+<p>
+  The system is designed to be able to say it does not know. There are two
+  independent abstention paths.
+</p>
+
+<h3>09.1 &nbsp;Insufficient evidence</h3>
+<p>
+  Where the residual is present but thin — not persistent enough, not seen across
+  enough regimes, estimator not yet locked — the anomaly is returned with
+  <code>abstained: true</code> and a stated reason, and the console renders
+  <strong>MODEL ABSTENTION</strong> rather than a diagnosis. A mechanism is always
+  named as <code>LIKELY CONTRIBUTING</code>, never as confirmed.
+</p>
+
+<h3>09.2 &nbsp;Outside the model envelope</h3>
+<p>
+  This one was added because the team corpus exposed it. The expectation comes
+  from a model calibrated for a 2,700 rpm, four-cylinder air-cooled aero engine.
+  Hand it a corpus recorded from a different machine and every residual is
+  enormous — not because anything is wrong with that engine, but because the
+  model was not built for it. The health index collapsed to zero and the engine
+  was reported CRITICAL.
+</p>
+
+<div class="note note--warn">
+  <span class="note__k">The failure this prevents</span>
+  <p>
+    That number would have been a lie. The residual was real, but it was a
+    <em>model mismatch</em> residual, not evidence of a fault: nothing had been
+    observed about that engine except that AEROTWIN's model was not built for it.
+    Reporting a failing engine from that is precisely the failure mode this
+    system exists to be immune to.
+  </p>
+</div>
+
+<p>So the envelope is checked before anything is diagnosed:</p>
+
+<table>
+  <thead><tr><th style="width:24%">Verdict</th><th style="width:32%">Condition</th><th>Behaviour</th></tr></thead>
+  <tbody>
+    <tr><td><span class="tag tag--ok">IN ENVELOPE</span></td><td>RPM within calibration, full channel coverage</td><td>Diagnose normally</td></tr>
+    <tr><td><span class="tag tag--warn">REDUCED</span></td><td>Model applies, instrumentation incomplete</td><td>Diagnose what is covered; name what is not</td></tr>
+    <tr><td><span class="tag tag--crit">OUT OF ENVELOPE</span></td><td>RPM beyond 1.15× rated, or coverage under 30%</td><td><strong>Abstain</strong> — no health verdict, no anomalies, no advisory</td></tr>
+  </tbody>
+</table>
+
+<p>
+  On abstention <code>health_index</code> is returned as <code>null</code>, not
+  <code>0</code>, and the gauge draws a dash rather than a zero. Absolute
+  threshold alerts still fire: a redline is a redline whatever model is running.
+</p>
+
+<p>Replaying the team corpus is a live demonstration of the whole mechanism:</p>
+
+<pre><code>MODEL ABSTENTION
+  Crankshaft speed 4,726 rpm is above the model's calibrated ceiling of
+  3,105 rpm (Lycoming IO-360 class, rated 2,700 rpm). This is a different
+  class of engine.
+  No per-cylinder instrumentation in this source: cylinder-level
+  localisation is unavailable. Bulk channels only.
+
+  coverage        30.8%  (4 of 13 residual channels)
+  localisation    unavailable
+  health_index    null</code></pre>
+
+<!-- ══════════════════════════════ 10 ══════════════════════════════ -->
+<h2><span class="n">10</span>Explanation and Advisory</h2>
+
+<p>
+  A score is not an answer. Every anomaly carries the evidence that produced it,
+  so the operator sees the reasoning rather than a number:
+</p>
+
+<table>
+  <thead><tr><th style="width:30%">Field</th><th>Content</th></tr></thead>
+  <tbody>
+    <tr><td>Affected channel &amp; cylinder</td><td>Which signal, on which cylinder</td></tr>
+    <tr><td>Actual / Expected / Residual</td><td>The three numbers, in the channel's own unit</td></tr>
+    <tr><td>Trend &amp; persistence</td><td>Drifting or stable; how many samples it has held</td></tr>
+    <tr><td>Regime coverage</td><td>How many distinct power/altitude regimes it has been seen in</td></tr>
+    <tr><td>Feature contributions</td><td>Which residual features drove the score, and by how much</td></tr>
+    <tr><td>Mechanism</td><td>Named as <code>LIKELY CONTRIBUTING</code> — e.g. early exhaust valve distress</td></tr>
+    <tr><td>Confidence</td><td>Calibrated, or <code>ABSTAINED</code> with the reason</td></tr>
+  </tbody>
+</table>
+
+<p>
+  The advisory layer turns that into an action — an inspection recommendation
+  scoped to a cylinder, with the serviceability outlook from the health trend.
+  It is an advisory, not a maintenance authorisation, and the console says so.
+</p>
+
+<!-- ══════════════════════════════ 11 ══════════════════════════════ -->
+<h2><span class="n">11</span>The Simulation Clock</h2>
+
+<p>
+  Everything that moves because the <em>simulation</em> is moving derives from
+  one object. Nothing else in the console owns a timer that advances simulation
+  state. That single rule replaced an architecture in which the console had a
+  second clock of its own — a 220 ms interval driving the in-browser model, which
+  knew nothing about the paused flag and kept stepping through a pause.
+</p>
+
+<table>
+  <thead><tr><th style="width:22%">State</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>idle</code></td><td>Nothing loaded, nothing running</td></tr>
+    <tr><td><code>starting</code></td><td>Loading data, initialising twin and detector — not yet advancing; each stage named on screen</td></tr>
+    <tr><td><code>running</code></td><td>The clock is advancing</td></tr>
+    <tr><td><code>paused</code></td><td>Held; index and time do not change</td></tr>
+    <tr><td><code>stopping</code> / <code>stopped</code></td><td>Torn down, restartable; computed state kept for inspection</td></tr>
+    <tr><td><code>completed</code></td><td>The source was exhausted; holds on the last real sample</td></tr>
+    <tr><td><code>error</code></td><td>Start-up or transport failed; the reason is on screen</td></tr>
+  </tbody>
+</table>
+
+<h3>11.1 &nbsp;Two transports, one state machine</h3>
+<p>
+  <strong>LIVE</strong> commands the backend and follows the frames it sends.
+  <strong>LOCAL</strong> drives the reduced in-browser model when no backend
+  answers. The state machine, the controls and every panel behave identically;
+  only the transport differs. This is what makes the full control surface work on
+  a static deployment, where it previously did nothing at all.
+</p>
+
+<h3>11.2 &nbsp;What PAUSE holds</h3>
+<p>
+  Pause is not a UI state. When it is pressed, the clock stops and with it: the
+  dataset index, telemetry, the charts, the residual, the twin, anomaly
+  processing, health, mission progress, the UAV's flight integration, the
+  contrail, the piston and crankshaft animation, the cooling-airflow particles,
+  and the narration timeline. Decorative hover motion continues; nothing
+  simulation-driven does.
+</p>
+
+<p>Three subtleties are handled explicitly.</p>
+<ul>
+  <li>
+    A live frame already in flight when the command went out is
+    <strong>dropped at the gate</strong>, so no number moves a beat after the
+    press.
+  </li>
+  <li>
+    The console pauses optimistically — held on the press, not on the round
+    trip — then <strong>settles onto the sample the backend actually stopped
+    on</strong>. That figure is read after the tick in progress has finished,
+    and off the same runtime object <code>/telemetry/latest</code> reports
+    from, so the index the console settles onto and the frame it displays are
+    the same sample by construction rather than by coincidence.
+  </li>
+  <li>
+    The status poll reconciles the console against the backend, and a status
+    response <em>already in flight</em> when PAUSE was pressed comes back
+    saying the server is running. Following it would silently undo the pause,
+    so every local command stamps an epoch and a snapshot that predates one is
+    <strong>ignored</strong>.
+  </li>
+</ul>
+
+<h3>11.3 &nbsp;The control surface</h3>
+<table>
+  <thead><tr><th style="width:16%">Control</th><th>Behaviour</th></tr></thead>
+  <tbody>
+    <tr><td>START DEMO</td><td>Dataset → simulation → twin → AI → telemetry, each stage named. <strong>Never disabled</strong> — it means "restart this sortie as the compressed demonstration", which is valid from any state, and it reads <code>RESTART DEMO</code> while one is running. Pressing it twice never creates a second loop</td></tr>
+    <tr><td>PAUSE</td><td>As §11.2</td></tr>
+    <tr><td>RESUME</td><td>Continues from exactly that timestep — never restarts, never skips, never re-prepares the source</td></tr>
+    <tr><td>STEP</td><td>Advances exactly one 1 Hz sample regardless of replay rate, then holds again</td></tr>
+    <tr><td>STOP</td><td>Ends the sortie; everything computed stays inspectable</td></tr>
+    <tr><td>RESET</td><td>Rewinds and clears every derived quantity — no residual baseline or CUSUM carried into the next run</td></tr>
+    <tr><td>1× … 200×</td><td>Replay rate. Changing it never resumes a held simulation and never spawns a second loop</td></tr>
+  </tbody>
+</table>
+
+<p>
+  The offered buttons are <em>derived</em> from the status rather than written out
+  by hand, so PAUSE is never offered on an already-held simulation and STEP is
+  never offered on a running one.
+</p>
+
+<div class="note">
+  <span class="note__k">Authority</span>
+  <p>
+    In LIVE mode the backend owns the clock, so it is the authority on whether
+    anything is advancing. The status poll reconciles: a console showing a
+    running simulation over a server paused from somewhere else is the same lie
+    as a pause that does not pause, in the other direction.
+  </p>
+</div>
+
+<!-- ══════════════════════════════ 12 ══════════════════════════════ -->
+<h2><span class="n">12</span>The Console</h2>
+
+<table>
+  <thead><tr><th style="width:22%">Route</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td>/intro</td><td>Cinematic first-entry sequence — skippable, replayable, remembered in <code>localStorage</code></td></tr>
+    <tr><td>/uav</td><td>Interactive 3D aircraft; engine inspection with PHYSICAL / THERMAL / AIRFLOW / TWIN views</td></tr>
+    <tr><td>/dashboard</td><td>Command Center — health, twin sync, telemetry, the pipeline</td></tr>
+    <tr><td>/twin</td><td>Observed → physics → expected → residual → state → updated twin</td></tr>
+    <tr><td>/engine</td><td>Per-cylinder health, thermal map, expected-vs-actual table</td></tr>
+    <tr><td>/telemetry</td><td>All channels with provenance badges and expected/actual pairs</td></tr>
+    <tr><td>/anomalies</td><td>Ranked anomalies and the evidence behind each</td></tr>
+    <tr><td>/prognostics</td><td>Health trend and serviceability outlook</td></tr>
+    <tr><td>/maintenance</td><td>Advisories, scoped to a cylinder</td></tr>
+    <tr><td>/simulation</td><td>Mission profile simulation over configurable sorties</td></tr>
+    <tr><td>/mission</td><td>Sector picture, route, mission state</td></tr>
+    <tr><td>/dataset</td><td>The mounted corpus, counted: files, rows, validity, rate, labels, mapping, gaps</td></tr>
+    <tr><td>/data</td><td>Data dictionary, ingest report, model cards</td></tr>
+    <tr><td>/validation</td><td>Validation harness, calibration, limitations, domain gap</td></tr>
+    <tr><td>/architecture</td><td>Live system architecture with per-node state</td></tr>
+  </tbody>
+</table>
+
+<h3>The 3D stage</h3>
+<p>
+  One never-unmounted canvas serves the corner card, the Command Center hero and
+  the fullscreen mission view; it animates between those framings rather than
+  remounting, so the aircraft is continuous across the transition. The engine
+  assembly is a real four-cylinder layout — crankcase, four barrels with cooling
+  fins, pistons, connecting rods, crankshaft, propeller flange — and its
+  <strong>crank angle is integrated from RPM</strong>, so the pistons turn because
+  the simulation is turning them. When the simulation holds, so do they.
+</p>
+
+<p>
+  If WebGL is unavailable the stage falls back to a 2D attitude view driven by the
+  same flight model, so the same numbers are shown with a context every machine
+  has. An error boundary guarantees a lost GL context degrades the visualisation
+  rather than blanking the telemetry.
+</p>
+
+<h3>The narrated demonstration</h3>
+<p>
+  <code>RUN STORY</code> plays the whole chain full screen over the aircraft in
+  about ninety seconds — link, telemetry, twin sync, healthy engine, first
+  deviation, residual growth, cylinder separation, estimator, detector,
+  explanation, advisory. The narration is scripted; every number it shows is read
+  live from the store at that moment, so it cannot state something the system is
+  not actually reporting. It reads the sortie already in progress rather than
+  rewinding it, and its pause control pauses the simulation it is narrating.
+</p>
+
+<!-- ══════════════════════════════ 13 ══════════════════════════════ -->
+<h2><span class="n">13</span>API Reference</h2>
+
+<h4>WebSocket topics</h4>
+<table>
+  <thead><tr><th style="width:26%">Topic</th><th>Payload</th></tr></thead>
+  <tbody>
+    <tr><td>/ws/telemetry</td><td>Tick, channels, expected, residuals, inputs, engine summary, datalink, source descriptor</td></tr>
+    <tr><td>/ws/residuals</td><td>Per-channel residual, normalised, EWMA, CUSUM, scale; estimator state; asymmetry</td></tr>
+    <tr><td>/ws/alerts</td><td>Ranked anomalies with contributions, advisories, threshold alerts, event log</td></tr>
+    <tr><td>/ws/mission</td><td>Mission state, position, altitude, IAS, RPM, power, replay rate</td></tr>
+  </tbody>
+</table>
+
+<h4>REST — state</h4>
+<table>
+  <tbody>
+    <tr><td style="width:34%"><code>GET /api/system/status</code></td><td>Boot, datalink, twin, model, running/paused, replay rate, uptime</td></tr>
+    <tr><td><code>GET /api/system/architecture</code></td><td>Live architecture graph with per-node state</td></tr>
+    <tr><td><code>GET /api/engine/status</code></td><td>Health index (or <code>null</code> on abstention), envelope, cylinders, prognosis</td></tr>
+    <tr><td><code>GET /api/engine/comparison</code></td><td>Expected vs actual, per channel and per cylinder</td></tr>
+    <tr><td><code>GET /api/residuals</code></td><td>Current residual frame</td></tr>
+    <tr><td><code>GET /api/twin/state</code></td><td>Estimator parameters and lock state</td></tr>
+    <tr><td><code>GET /api/anomalies</code></td><td>Ranked anomalies</td></tr>
+    <tr><td><code>GET /api/anomalies/{id}/explain</code></td><td>Full evidence for one anomaly</td></tr>
+    <tr><td><code>GET /api/validation</code></td><td>Harness metrics, calibration, limitations, domain gap</td></tr>
+    <tr><td><code>GET /api/ml/status</code></td><td>Model cards for both detectors</td></tr>
+  </tbody>
+</table>
+
+<h4>REST — control</h4>
+<table>
+  <tbody>
+    <tr><td style="width:34%"><code>POST /api/replay/pause</code></td><td>Hold; returns the exact sample it stopped on</td></tr>
+    <tr><td><code>POST /api/replay/resume</code></td><td>Release; returns the sample it resumed from</td></tr>
+    <tr><td><code>POST /api/replay/step</code></td><td>Advance exactly N 1 Hz samples while held</td></tr>
+    <tr><td><code>POST /api/replay/stop</code></td><td>Hold and mark stopped; derived state kept</td></tr>
+    <tr><td><code>POST /api/replay/reset</code></td><td>Cold restart: rewind source, clear every derived quantity</td></tr>
+    <tr><td><code>POST /api/replay/speed</code></td><td>Set replay rate</td></tr>
+    <tr><td><code>POST /api/demo/start</code> · <code>/stop</code></td><td>The compressed demonstration sortie</td></tr>
+    <tr><td><code>POST /api/system/datalink</code></td><td>Simulate a link interruption — the twin holds rather than guessing</td></tr>
+  </tbody>
+</table>
+
+<h4>REST — dataset</h4>
+<table>
+  <tbody>
+    <tr><td style="width:34%"><code>GET /api/dataset/status</code></td><td>Corpus counted off the filesystem on every call</td></tr>
+    <tr><td><code>GET /api/dataset/validate</code></td><td>Per-file PASS / WARNING / ERROR with the reason</td></tr>
+    <tr><td><code>POST /api/dataset/activate</code></td><td>Put a corpus file on the live seat</td></tr>
+    <tr><td><code>POST /api/dataset/restore</code></td><td>Return the seat to the demonstration simulator</td></tr>
+  </tbody>
+</table>
+
+<!-- ══════════════════════════════ 14 ══════════════════════════════ -->
+<h2><span class="n">14</span>Running the Prototype</h2>
+
+<pre><code>git clone https://github.com/shanmugapriya180607/AeroTwin-AI.git
+cd AeroTwin-AI
+
+# backend
+cd backend && pip install -r requirements.txt
+
+# frontend
+cd ../frontend && npm install</code></pre>
+
+<p>One command starts both and opens the console:</p>
+
+<pre><code>./start.ps1        # Windows
+./start.sh         # macOS / Linux</code></pre>
+
+<table>
+  <tbody>
+    <tr><td style="width:34%">Console</td><td><code>http://localhost:5173/</code></td></tr>
+    <tr><td>API documentation</td><td><code>http://127.0.0.1:8011/docs</code></td></tr>
+  </tbody>
+</table>
+
+<h4>The demonstration path</h4>
+<ol>
+  <li>Open the console — the cinematic intro plays on first entry, skippable and replayable.</li>
+  <li>Inspect the aircraft and the engine on <code>/uav</code>: physical, thermal, airflow, twin.</li>
+  <li>Enter the Command Center. The sortie already in progress is adopted and shown.</li>
+  <li>Press <strong>RUN STORY</strong> for the ninety-second narrated chain, or drive it manually.</li>
+  <li>Watch the residual grow on <code>/twin</code>; watch cylinder 3 separate on <code>/engine</code>.</li>
+  <li>Press <strong>PAUSE</strong>. Every number holds. Press <strong>STEP</strong> to walk it one second at a time.</li>
+  <li>Open <code>/anomalies</code> for the evidence, <code>/maintenance</code> for the advisory.</li>
+  <li>Open <code>/dataset</code> and press <strong>REPLAY</strong> on a team-corpus file to watch the twin abstain.</li>
+</ol>
+
+<h4>Deployment without a backend</h4>
+<p>
+  The console stays fully demonstrable as a static bundle: the local transport
+  takes the seat, <code>DEMO</code> appears on every value, and the complete
+  control surface works. The Dataset screen reads a report generated at build
+  time by the same code the API serves — identical figures, marked
+  <code>BUILD SNAPSHOT</code> rather than passed off as a live inspection.
+</p>
+
+<pre><code>cd backend && python -m tools.export_dataset_report</code></pre>
+
+<!-- ══════════════════════════════ 15 ══════════════════════════════ -->
+<h2><span class="n">15</span>Verification</h2>
+
+<h3>15.1 &nbsp;Detector performance</h3>
+<p>
+  Against the synthetic harness — 48 trials, 24 positive and 24 negative, at a
+  0.50 operating threshold:
+</p>
+
+<table>
+  <thead><tr><th style="width:26%">Metric</th><th class="num" style="width:14%">Value</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td>ROC-AUC</td><td class="num">0.941</td><td>Ranking quality of the anomaly score against the injected label</td></tr>
+    <tr><td>Precision</td><td class="num">0.913</td><td>At the operating threshold</td></tr>
+    <tr><td>Recall</td><td class="num">0.875</td><td>At the operating threshold</td></tr>
+  </tbody>
+</table>
+
+<div class="note note--warn">
+  <span class="note__k">What these figures are not</span>
+  <p>
+    They are measured against <em>injected</em> degradation in the demonstration
+    simulator, not against labelled maintenance events on real hardware. They
+    demonstrate that the pipeline separates injected faults from healthy
+    operation. They are not a claim about field performance, and the Validation
+    screen states this in the same words.
+  </p>
+</div>
+
+<h3>15.2 &nbsp;Simulation-engine invariants</h3>
+<p>
+  31 assertions run against a fake scheduler, so the properties are exact rather
+  than dependent on wall-clock timing. Among them:
+</p>
+
+<table>
+  <thead><tr><th style="width:38%">Invariant</th><th>Assertion</th></tr></thead>
+  <tbody>
+    <tr><td>One loop, always</td><td>START twice, RESUME twice, START-after-STOP, and speed changes each leave exactly one interval live</td></tr>
+    <tr><td>PAUSE holds</td><td>Index, time and clock unchanged across 100 ticks; the transport is not called; no advance listener fires</td></tr>
+    <tr><td>Late frames dropped</td><td>A live frame arriving after the pause command is refused and moves nothing</td></tr>
+    <tr><td>RESUME continues</td><td>Same timestep, then exactly one tick forward; the source is not re-prepared</td></tr>
+    <tr><td>STEP is exactly one</td><td>+1 s, status still <code>paused</code>; a no-op while running</td></tr>
+    <tr><td>Settle after pause</td><td>The held index becomes the sample the backend actually stopped on</td></tr>
+    <tr><td>Adopt honestly</td><td>A backend already paused is adopted as paused, never as running</td></tr>
+    <tr><td>Stale snapshots ignored</td><td>A status poll issued before PAUSE and answered after it cannot restart the clock; one issued after it still can</td></tr>
+    <tr><td>Held streams released</td><td>A ground station left paused by an earlier session is released when a console attaches, rather than opening onto a sortie where nothing moves</td></tr>
+    <tr><td>End of source</td><td>Holds on the last real sample rather than wrapping silently</td></tr>
+  </tbody>
+</table>
+
+<h3>15.3 &nbsp;End-to-end</h3>
+<p>
+  32 checks driven through a real Chromium against the running stack — both with
+  the backend and with it deliberately stopped. All pass. Representative measured
+  results:
+</p>
+
+<pre><code>PASS  simulation adopted the live stream        status=running transport=LIVE
+PASS  telemetry advances                        t 583 -> 651
+PASS  values EXACTLY unchanged after 6 s held   t 683->683  rpm 2543.28->2543.28
+PASS  clock and frame settled on same sample    engine 683 vs frame 683
+PASS  STEP advances exactly one timestep        t 683 -> 684, status paused
+PASS  RESUME continues from the same timestep   t 684 -> 696
+PASS  STOP stops the simulation                 status=stopped
+PASS  only one simulation loop runs             64.0 sim-s per real s
+PASS  engine animation held while paused        simClock.running=false
+PASS  dataset page shows counted figures        ROWS 4,200  VALID 4,200
+PASS  every route renders
+PASS  no unexpected console errors
+=== 32/32 passed ===</code></pre>
+
+<!-- ══════════════════════════════ 16 ══════════════════════════════ -->
+<h2><span class="n">16</span>Limitations</h2>
+
+<p>Stated here rather than left to be discovered.</p>
+
+<table>
+  <thead><tr><th style="width:20%">Area</th><th style="width:14%">State</th><th>Detail</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Airframe</td><td><span class="tag tag--crit">GAP</span></td>
+      <td>The available real corpus is general-aviation (Cessna 172 class), not a MALE UAV. Same engine class — four-cylinder horizontally opposed, ~180 hp, air-cooled, fuel-injected — so the thermodynamics, failure modes and sensor channels transfer. Duty cycle and airframe do not.</td>
+    </tr>
+    <tr>
+      <td>Vibration</td><td><span class="tag tag--sim">SIMULATED</span></td>
+      <td>Vibration and injection timing have no counterpart in any available corpus and are produced by the physics model. Tagged SIMULATED everywhere they appear.</td>
+    </tr>
+    <tr>
+      <td>Operational data</td><td><span class="tag tag--crit">GAP</span></td>
+      <td>No proprietary, operational or classified data is used or included. The repository contains none.</td>
+    </tr>
+    <tr>
+      <td>Physics model</td><td><span class="tag tag--warn">SIMPLIFIED</span></td>
+      <td>Lumped-parameter, not CFD or FEA. Calibrated for one engine class; outside that envelope the system abstains rather than extrapolating (§09.2).</td>
+    </tr>
+    <tr>
+      <td>Team corpus</td><td><span class="tag tag--sim">GENERATED</span></td>
+      <td>Produced by a documented simulator, not measured. Bulk channels only — no per-cylinder instrumentation, so it cannot support cylinder-level localisation.</td>
+    </tr>
+    <tr>
+      <td>Validation</td><td><span class="tag tag--warn">SYNTHETIC</span></td>
+      <td>Metrics come from injected degradation, not labelled maintenance events on real hardware.</td>
+    </tr>
+    <tr>
+      <td>Live flight</td><td><span class="tag tag--warn">OUT OF SCOPE</span></td>
+      <td>The SocketCAN deployment path is implemented as an interface; it is not exercised against a real engine bus in this build.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="note note--key">
+  <span class="note__k">Standing commitment</span>
+  <p>
+    Simulated data is never presented as measured, anywhere. Where evidence is
+    thin the system reports abstention and the reason rather than guessing, and
+    it names a likely contributing mechanism, never a confirmed failure. A single
+    instance of a generated channel being mistaken for a measurement would
+    discredit everything else in the project, which is why provenance is enforced
+    in the type system and not by convention.
+  </p>
+</div>
+
+<p class="foot">
+  <strong>AEROTWIN — Propulsion Intelligence.</strong> Programme reference
+  PS-26054. Research prototype: <strong>not certified for airworthiness
+  decisions</strong>. Sector, mission and aircraft identifiers are fictional and
+  positions are synthetic. All components run locally; no external service is
+  contacted at runtime.
+</p>
+
+</body>
+</html>

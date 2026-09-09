@@ -1,0 +1,597 @@
+{
+ "channels": [
+  {
+   "key": "rpm",
+   "label": "ENGINE RPM",
+   "unit": "rpm",
+   "group": "OPERATING POINT",
+   "provenance": "REAL",
+   "per_cylinder": false,
+   "corpus_columns": [
+    "E1 RPM",
+    "rpm",
+    "RPM"
+   ],
+   "valid_range": [
+    0.0,
+    3200.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "map_inhg",
+   "label": "MANIFOLD PRESSURE",
+   "unit": "inHg",
+   "group": "OPERATING POINT",
+   "provenance": "REAL",
+   "per_cylinder": false,
+   "corpus_columns": [
+    "E1 MAP",
+    "map",
+    "MAP"
+   ],
+   "valid_range": [
+    5.0,
+    32.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "fuel_flow_gph",
+   "label": "FUEL FLOW",
+   "unit": "gph",
+   "group": "OPERATING POINT",
+   "provenance": "REAL",
+   "per_cylinder": false,
+   "corpus_columns": [
+    "E1 FFlow",
+    "fuel_flow",
+    "FFlow"
+   ],
+   "valid_range": [
+    0.0,
+    26.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "egt_1",
+   "label": "EGT 1",
+   "unit": "\u00b0C",
+   "group": "COMBUSTION",
+   "provenance": "REAL",
+   "per_cylinder": true,
+   "corpus_columns": [
+    "E1 EGT1",
+    "egt1"
+   ],
+   "valid_range": [
+    150.0,
+    900.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "egt_2",
+   "label": "EGT 2",
+   "unit": "\u00b0C",
+   "group": "COMBUSTION",
+   "provenance": "REAL",
+   "per_cylinder": true,
+   "corpus_columns": [
+    "E1 EGT2",
+    "egt2"
+   ],
+   "valid_range": [
+    150.0,
+    900.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "egt_3",
+   "label": "EGT 3",
+   "unit": "\u00b0C",
+   "group": "COMBUSTION",
+   "provenance": "REAL",
+   "per_cylinder": true,
+   "corpus_columns": [
+    "E1 EGT3",
+    "egt3"
+   ],
+   "valid_range": [
+    150.0,
+    900.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "egt_4",
+   "label": "EGT 4",
+   "unit": "\u00b0C",
+   "group": "COMBUSTION",
+   "provenance": "REAL",
+   "per_cylinder": true,
+   "corpus_columns": [
+    "E1 EGT4",
+    "egt4"
+   ],
+   "valid_range": [
+    150.0,
+    900.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "cht_1",
+   "label": "CHT 1",
+   "unit": "\u00b0C",
+   "group": "THERMAL",
+   "provenance": "REAL",
+   "per_cylinder": true,
+   "corpus_columns": [
+    "E1 CHT1",
+    "cht1"
+   ],
+   "valid_range": [
+    20.0,
+    290.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "cht_2",
+   "label": "CHT 2",
+   "unit": "\u00b0C",
+   "group": "THERMAL",
+   "provenance": "REAL",
+   "per_cylinder": true,
+   "corpus_columns": [
+    "E1 CHT2",
+    "cht2"
+   ],
+   "valid_range": [
+    20.0,
+    290.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "cht_3",
+   "label": "CHT 3",
+   "unit": "\u00b0C",
+   "group": "THERMAL",
+   "provenance": "REAL",
+   "per_cylinder": true,
+   "corpus_columns": [
+    "E1 CHT3",
+    "cht3"
+   ],
+   "valid_range": [
+    20.0,
+    290.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "cht_4",
+   "label": "CHT 4",
+   "unit": "\u00b0C",
+   "group": "THERMAL",
+   "provenance": "REAL",
+   "per_cylinder": true,
+   "corpus_columns": [
+    "E1 CHT4",
+    "cht4"
+   ],
+   "valid_range": [
+    20.0,
+    290.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "oil_press_psi",
+   "label": "OIL PRESSURE",
+   "unit": "psi",
+   "group": "LUBRICATION",
+   "provenance": "REAL",
+   "per_cylinder": false,
+   "corpus_columns": [
+    "E1 OilP",
+    "oil_press",
+    "OilP"
+   ],
+   "valid_range": [
+    0.0,
+    110.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "oil_temp_c",
+   "label": "OIL TEMPERATURE",
+   "unit": "\u00b0C",
+   "group": "LUBRICATION",
+   "provenance": "REAL",
+   "per_cylinder": false,
+   "corpus_columns": [
+    "E1 OilT",
+    "oil_temp",
+    "OilT"
+   ],
+   "valid_range": [
+    -20.0,
+    135.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "oat_c",
+   "label": "OUTSIDE AIR TEMP",
+   "unit": "\u00b0C",
+   "group": "AMBIENT",
+   "provenance": "REAL",
+   "per_cylinder": false,
+   "corpus_columns": [
+    "OAT",
+    "oat"
+   ],
+   "valid_range": [
+    -60.0,
+    55.0
+   ],
+   "rate_hz": 1.0,
+   "role": "PHYSICS INPUT",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "altitude_ft",
+   "label": "PRESSURE ALTITUDE",
+   "unit": "ft",
+   "group": "AMBIENT",
+   "provenance": "REAL",
+   "per_cylinder": false,
+   "corpus_columns": [
+    "AltMSL",
+    "AltB",
+    "altitude"
+   ],
+   "valid_range": [
+    -1000.0,
+    30000.0
+   ],
+   "rate_hz": 1.0,
+   "role": "PHYSICS INPUT",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "ias_kt",
+   "label": "INDICATED AIRSPEED",
+   "unit": "kt",
+   "group": "AMBIENT",
+   "provenance": "REAL",
+   "per_cylinder": false,
+   "corpus_columns": [
+    "IAS",
+    "ias"
+   ],
+   "valid_range": [
+    0.0,
+    220.0
+   ],
+   "rate_hz": 1.0,
+   "role": "PHYSICS INPUT",
+   "note": "Measured channel. Present in the NGAFID-MC corpus at 1 Hz and replayed verbatim; in demo mode it is produced by the telemetry simulator against the same data contract.",
+   "source_note": "Measured channel. Read from the corpus at 1 Hz, or reproduced by the demo telemetry simulator against the identical contract."
+  },
+  {
+   "key": "vibration_g",
+   "label": "VIBRATION",
+   "unit": "g rms",
+   "group": "MECHANICAL",
+   "provenance": "SIMULATED",
+   "per_cylinder": false,
+   "corpus_columns": [],
+   "valid_range": [
+    0.0,
+    6.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "No real counterpart. NGAFID-MC carries no accelerometer channel, so vibration is generated from the physics model's combustion-balance state and tagged synthetic everywhere it appears.",
+   "source_note": "No real counterpart in NGAFID-MC. Generated by the physics model and tagged SIMULATED at every layer."
+  },
+  {
+   "key": "inj_timing_deg",
+   "label": "INJECTION TIMING",
+   "unit": "\u00b0BTDC",
+   "group": "MECHANICAL",
+   "provenance": "SIMULATED",
+   "per_cylinder": false,
+   "corpus_columns": [],
+   "valid_range": [
+    0.0,
+    45.0
+   ],
+   "rate_hz": 1.0,
+   "role": "RESIDUAL CHANNEL",
+   "note": "No real counterpart. Injection/ignition timing is not published in NGAFID-MC; it is derived from the physics model's operating point and tagged synthetic everywhere it appears.",
+   "source_note": "No real counterpart in NGAFID-MC. Generated by the physics model and tagged SIMULATED at every layer."
+  }
+ ],
+ "note": "The twin's data contract. Sixteen channels are measured, two are generated by the physics model because NGAFID-MC carries no accelerometer and publishes no injection timing. Any adapter that satisfies this contract - an authorised test-rig export, a live CAN feed - drops into the same slot with no change downstream.",
+ "ingest": {
+  "configured": true,
+  "mode": "DEMO",
+  "state": "ACTIVE",
+  "provenance": "DEMO",
+  "directory": "C:\\Users\\shanm\\OneDrive\\Desktop\\AEROTWIN\\data\\demo\\flights",
+  "files": 3,
+  "inspected_file": "demo_flight_001.csv",
+  "rows": 800,
+  "rate_hz": 1.0,
+  "required_channels": 16,
+  "mapped_channels": 16,
+  "columns": [
+   {
+    "key": "rpm",
+    "matched_column": "E1 RPM",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 2376.0,
+    "max": 2696.0,
+    "mean": 2485.3
+   },
+   {
+    "key": "map_inhg",
+    "matched_column": "E1 MAP",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 18.42,
+    "max": 29.14,
+    "mean": 22.88
+   },
+   {
+    "key": "fuel_flow_gph",
+    "matched_column": "E1 FFlow",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 10.27,
+    "max": 16.7,
+    "mean": 12.96
+   },
+   {
+    "key": "egt_1",
+    "matched_column": "E1 EGT1",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 710.3,
+    "max": 792.0,
+    "mean": 744.58
+   },
+   {
+    "key": "egt_2",
+    "matched_column": "E1 EGT2",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 704.1,
+    "max": 786.0,
+    "mean": 738.5
+   },
+   {
+    "key": "egt_3",
+    "matched_column": "E1 EGT3",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 720.0,
+    "max": 796.2,
+    "mean": 751.45
+   },
+   {
+    "key": "egt_4",
+    "matched_column": "E1 EGT4",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 707.2,
+    "max": 788.9,
+    "mean": 741.53
+   },
+   {
+    "key": "cht_1",
+    "matched_column": "E1 CHT1",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 24.7,
+    "max": 253.6,
+    "mean": 205.89
+   },
+   {
+    "key": "cht_2",
+    "matched_column": "E1 CHT2",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 24.2,
+    "max": 251.5,
+    "mean": 203.91
+   },
+   {
+    "key": "cht_3",
+    "matched_column": "E1 CHT3",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 24.3,
+    "max": 255.4,
+    "mean": 209.07
+   },
+   {
+    "key": "cht_4",
+    "matched_column": "E1 CHT4",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 24.2,
+    "max": 252.9,
+    "mean": 204.94
+   },
+   {
+    "key": "oil_press_psi",
+    "matched_column": "E1 OilP",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 69.1,
+    "max": 70.6,
+    "mean": 69.99
+   },
+   {
+    "key": "oil_temp_c",
+    "matched_column": "E1 OilT",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 16.8,
+    "max": 76.8,
+    "mean": 68.14
+   },
+   {
+    "key": "oat_c",
+    "matched_column": "OAT",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": -10.8,
+    "max": 13.3,
+    "mean": 0.73
+   },
+   {
+    "key": "altitude_ft",
+    "matched_column": "AltMSL",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 895.4,
+    "max": 12960.4,
+    "mean": 7203.87
+   },
+   {
+    "key": "ias_kt",
+    "matched_column": "IAS",
+    "status": "MAPPED",
+    "null_pct": 0.0,
+    "min": 69.7,
+    "max": 94.6,
+    "mean": 89.46
+   }
+  ],
+  "raw_columns": [
+   "Lcl Time",
+   "AltMSL",
+   "IAS",
+   "OAT",
+   "E1 RPM",
+   "E1 MAP",
+   "E1 FFlow",
+   "E1 CHT1",
+   "E1 CHT2",
+   "E1 CHT3",
+   "E1 CHT4",
+   "E1 EGT1",
+   "E1 EGT2",
+   "E1 EGT3",
+   "E1 EGT4",
+   "E1 OilP",
+   "E1 OilT",
+   "Pitch",
+   "Roll",
+   "GndSpd"
+  ],
+  "unmapped_columns": [
+   "GndSpd",
+   "Lcl Time"
+  ],
+  "parquet": "OPTIONAL",
+  "parquet_supported": false,
+  "messages": [],
+  "status": "ACTIVE",
+  "dataset": {
+   "id": "NGAFID-MC",
+   "name": "NGAFID Maintenance Classification",
+   "flights": 28935,
+   "flight_hours": 31177,
+   "aircraft": "Cessna 172",
+   "engine": "Lycoming IO-360",
+   "rated_power_hp": 180,
+   "engine_class": "4-cylinder horizontally opposed piston",
+   "sensors": 23,
+   "sample_rate_hz": 1,
+   "size_gb": 5.4,
+   "maintenance_events": 2111,
+   "issue_types": 36,
+   "licence": "CC-BY-4.0",
+   "doi": "10.5281/zenodo.6624956",
+   "url": "https://zenodo.org/records/6624956",
+   "paper": "https://arxiv.org/abs/2210.07317",
+   "loader": "https://github.com/hyang0129/NGAFIDDATASET",
+   "benchmark_task": "P(RUL > 2 days)"
+  }
+ },
+ "adapter_contract": {
+  "interface": "DataSource",
+  "methods": [
+   "descriptor",
+   "reset",
+   "next_frame"
+  ],
+  "frame": {
+   "t": "seconds since flight start",
+   "channels": "channel key -> value, at 1 Hz",
+   "inputs": "throttle, mixture, altitude_ft, oat_c, ias_kt",
+   "phase": "mission phase label"
+  },
+  "implementations": [
+   "NgafidReplaySource - real corpus",
+   "SyntheticFlightSource - demo telemetry, tagged DEMO",
+   "SocketCanSource - live CAN deployment path"
+  ],
+  "note": "Anything satisfying this interface drops in without a change downstream. That is the answer to data that cannot leave its own facility."
+ },
+ "snapshot": true,
+ "generated_at": "2026-08-27T01:44:26+00:00"
+}
