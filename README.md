@@ -10,15 +10,6 @@ A physics model of the engine runs in lockstep with the engine itself. The
 difference between what physics expects and what the sensors report — the
 **residual** — is what everything downstream reads.
 
-> ### 📄 [**Download the full technical documentation (PDF, 16 pages)**](docs/AEROTWIN-Technical-Documentation.pdf)
->
-> How every layer works — the data contract, the physics model, the residual
-> engine, state estimation, detection and fusion, the abstention rules, the
-> simulation clock, the API surface, verification results and the stated
-> limitations.
-
----
-
 ## Problem Statement
 
 - **Limited Engine Monitoring** — Multiple engine parameters are difficult to monitor together.
