@@ -16,10 +16,6 @@ difference between what physics expects and what the sensors report — the
 > engine, state estimation, detection and fusion, the abstention rules, the
 > simulation clock, the API surface, verification results and the stated
 > limitations.
->
-> *On GitHub: open the file and press **Download raw file**. The HTML source is
-> at [`docs/documentation.html`](docs/documentation.html) if you would rather
-> read it in a browser.*
 
 ---
 
